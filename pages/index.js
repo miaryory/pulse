@@ -1,16 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import commerce from "../lib/commerce";
 import ProductList from "../components/ProductList";
-
-export default function IndexPage({ merchant, categories, products }) {
-  return (
-    <>
-      <pre>{JSON.stringify(merchant, null, 2)}</pre>
-      <pre>{JSON.stringify(categories, null, 2)}</pre>
-      <ProductList products={products} />
-    </>
-  );
-}
+import MenuBar from '../components/MenuBar';
+import Footer from '../components/Footer';
+import styles from '../styles/index.module.css';
 
 export async function getStaticProps() {
   const merchant = await commerce.merchants.about();
@@ -24,4 +17,30 @@ export async function getStaticProps() {
       products,
     },
   };
+}
+
+export default function IndexPage({ merchant, categories, products }) {
+  const [category, setCategory] = useState('All');
+
+  return (
+    <>
+      <MenuBar/>
+
+      <div className={styles.homePage}>
+
+        {/* Category dropdown */}
+        <select className={styles.categoryDropdown} value={category} onChange={event => setCategory(event.target.value)}>
+            <option value="All">ALL</option>
+            {categories.map((categ) => (
+              <option key={categ.id} value={categ.name}>{categ.name.toUpperCase()}</option>
+            ))}
+        </select>
+
+        <ProductList products={products} category={category} />
+        {/* <pre>{JSON.stringify(products, null, 2)}</pre> */}
+        
+        <Footer/>
+      </div>
+    </>
+  );
 }
