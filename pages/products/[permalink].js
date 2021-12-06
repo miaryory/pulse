@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import Image from 'next/image';
 
 import styles from '../../styles/ProductPage.module.css';
+import { useCartDispatch } from "../../context/cart";
 
 export async function getStaticProps({ params }) {
     const { permalink } = params;
@@ -33,6 +34,12 @@ export async function getStaticProps({ params }) {
   }
 
   export default function ProductPage({ product }) {
+    const { setCart } = useCartDispatch();
+
+    const addToCart = () =>{
+      commerce.cart.add(product.id).then(({cart}) => setCart(cart));
+    }
+
     return (
       <>
         <MenuBar/>
@@ -49,6 +56,8 @@ export async function getStaticProps({ params }) {
             </div>
 
             {product.description}
+
+            <button onClick={addToCart}>Add to cart</button>
 
         </div>
 
