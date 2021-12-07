@@ -4,6 +4,7 @@
 
 .categoryDropdown{
     border: none;
+    background: transparent;
     padding: 1rem 0;
     font-weight: bold;
 }

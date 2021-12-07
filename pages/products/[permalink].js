@@ -12,7 +12,7 @@ export async function getStaticProps({ params }) {
     const product = await commerce.products.retrieve(permalink, {
       type: 'permalink',
     });
-  
+
     return {
       props: {
         product,
@@ -33,7 +33,7 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  export default function ProductPage({ product }) {
+  export default function ProductPage({ product, size }) {
     const { setCart } = useCartDispatch();
 
     const addToCart = () =>{
@@ -55,9 +55,12 @@ export async function getStaticProps({ params }) {
                 <p>{product.price.formatted_with_code}</p>
             </div>
 
-            {product.description}
+            <div className={styles.productDescription} dangerouslySetInnerHTML={{__html: product.description}}></div>
+            
+            <div>
+            </div>
 
-            <button onClick={addToCart}>Add to cart</button>
+            <button className={styles.addToCartBtn} onClick={addToCart}>ADD TO CART</button>
 
         </div>
 

@@ -6,20 +6,18 @@ import Footer from '../components/Footer';
 import styles from '../styles/index.module.css';
 
 export async function getStaticProps() {
-  const merchant = await commerce.merchants.about();
   const { data: categories } = await commerce.categories.list();
   const { data: products } = await commerce.products.list();
 
   return {
     props: {
-      merchant,
       categories,
       products,
     },
   };
 }
 
-export default function IndexPage({ merchant, categories, products }) {
+export default function IndexPage({ categories, products }) {
   const [category, setCategory] = useState('All');
 
   return (

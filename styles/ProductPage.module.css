@@ -2,13 +2,33 @@
     padding: 1rem;
 }
 
+.productImage{
+    border: 1px solid var(--light-grey);
+    border-radius: 5px;
+}
+
 .productInfo{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    font-weight: bold;
 }
 
 .productName{
     font-size: 16px;
+}
+
+.productDescription{
+    opacity: 0.6;
+}
+
+.addToCartBtn{
+    border: none;
+    width: 100%;
+    padding: 1rem;
+    background: var(--black);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
 }

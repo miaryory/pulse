@@ -1,34 +1,102 @@
-import { useCartState } from "../context/cart";
+import { useCartDispatch, useCartState } from "../context/cart";
+import commerce from '../lib/commerce';
+import MenuBar from "../components/MenuBar";
+import styles from '../styles/Cart.module.css';
+import Image from 'next/image';
+import { FaTimes } from "react-icons/fa";
+import Link from "next/link";
 
-function CartItem({name, quantity}){
+
+function CartItem({id, image, name, quantity, line_total, permalink}){
+    const {setCart} = useCartDispatch();
+
+    const handleUpdateCart = ({cart}) =>{
+        setCart(cart);
+    }
+
+    const removeItem = () =>{
+        commerce.cart.remove(id).then(handleUpdateCart);
+    }
+
+    const decrementQty = () => {
+        quantity > 1 ? commerce.cart.update(id, {quantity: quantity -1}).then(handleUpdateCart)
+        :
+        removeItem();
+    }
+
+    const incrementQty = () => {
+        commerce.cart.update(id, {quantity: quantity+1}).then(handleUpdateCart);
+    }
+
     return(
-        <div>
-            <p>{name}</p>
-            <p>{quantity}</p>
+        <div className={styles.cartItem}>
+            <Link href={`/products/${permalink}`} passHref>
+                <div className={styles.cartItemImage}>
+                    <Image src={image.url} alt='Product' width={150} height={150} />
+                </div>
+            </Link>
+
+            <div>
+                <p className={styles.cartItemName}>{name.toUpperCase()}</p>
+                <p className={styles.cartItemDetails}>details</p>
+                <p className={styles.cartItemPrice}>{line_total.formatted_with_code}</p>
+                <div className={styles.quantityBtn}>
+                    <button onClick={decrementQty}>-</button>
+                    <p>{quantity}</p>
+                    <button onClick={incrementQty}>+</button>
+                </div>
+            </div>
+
+            <div>
+                <FaTimes onClick={removeItem} size={20} color={"black"}/>
+            </div>
         </div>
+        
     );
 }
 
 export default function CartPage () {
     const { line_items, subtotal } = useCartState();
+    const {setCart} = useCartDispatch();
 
+    const handleUpdateCart = ({cart}) =>{
+        setCart(cart);
+    }
+    
+    const emptyCart = () =>{
+        commerce.cart.empty().then(handleUpdateCart);
+    }
+    
     const isEmpty = line_items.length === 0;
-
-    if(isEmpty) return <p>Your cart is empty</p>;
-
+    
     return(
         // <pre>{JSON.stringify(line_items, null, 2)}</pre>
-        <div>
-            <h1>Cart</h1>
+        <>
+            <MenuBar/>
+            <div className={styles.cartPage}>
 
-            {line_items.map(item => 
-                <CartItem key={item.id} {...item}/> 
-            )}
+                {isEmpty ?
+                    <p>Your cart is empty.</p>
+                :
+                    <div>
+                        <h1>CART</h1>
 
-            <hr/>
+                        {line_items.map(item => 
+                            <CartItem key={item.id} {...item}/> 
+                        )}
 
-            <p>Sub-total: {subtotal.formatted_with_code}</p>
-        </div>
+                        <button className={styles.emptyCartBtn} onClick={emptyCart}>Empty cart</button>
+
+                        <div className={styles.cartTotal}>
+                            <p>TOTAL</p>
+                            <p>{subtotal.formatted_with_code}</p>
+                        </div>
+
+                        <button className={styles.checkoutBtn} >CHECKOUT</button>
+                    </div>
+                }
+            </div>
+        </>
     );
 
 }

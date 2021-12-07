@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../styles/MenuBar.module.css';
 import { FaAlignJustify, FaSearch, FaRegUserCircle, FaShoppingBasket } from "react-icons/fa";
+import Link from 'next/link';
 
 export default function MenuBar(){
 
@@ -11,7 +12,9 @@ export default function MenuBar(){
                     <FaAlignJustify className={styles.menuIcon} size={30} color={"black"}/>
                 </div>
                 <div>
-                    <h1 className={styles.menuBrand}>PULSE</h1>
+                    <Link href="/" passHref>
+                        <h1 className={styles.menuBrand}>PULSE</h1>
+                    </Link>
                 </div>
             </div>
 
@@ -23,7 +26,9 @@ export default function MenuBar(){
                     <FaRegUserCircle className={styles.menuIcon}  size={30} color={"black"}/>
                 </div>
                 <div>
-                    <FaShoppingBasket className={styles.menuIcon}  size={30} color={"black"}/>
+                    <Link href="/cart" passHref>
+                        <FaShoppingBasket className={styles.menuIcon}  size={30} color={"black"}/>
+                    </Link>
                 </div>
             </div>
 
