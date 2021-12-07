@@ -1,0 +1,23 @@
+.footer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--black);
+    color: white;
+    padding: 1rem;
+    margin-top: 5rem;
+}
+
+.footer div{
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.footer p{
+    margin: 4%;
+    opacity: 0.6;
+}
+
+p.footerHeadear{
+    font-weight: bold;
+    opacity: 1;
+}

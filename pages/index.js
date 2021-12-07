@@ -37,8 +37,9 @@ export default function IndexPage({ categories, products }) {
         <ProductList products={products} category={category} />
         {/* <pre>{JSON.stringify(products, null, 2)}</pre> */}
         
-        <Footer/>
       </div>
+      
+      <Footer/>
     </>
   );
 }
