@@ -26,7 +26,9 @@ export default function MenuBar(){
                     <FaSearch className={styles.menuIcon}  size={30} color={"black"}/>
                 </div>
                 <div>
-                    <FaRegUserCircle className={styles.menuIcon}  size={30} color={"black"}/>
+                    <Link href="/profile" passHref>
+                        <FaRegUserCircle className={styles.menuIcon}  size={30} color={"black"}/>
+                    </Link>
                 </div>
                 <div className={styles.cartIcon}>
                     <Link href="/cart" passHref>
