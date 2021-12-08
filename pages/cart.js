@@ -5,13 +5,15 @@ import styles from '../styles/Cart.module.css';
 import Image from 'next/image';
 import { FaTimes } from "react-icons/fa";
 import Link from "next/link";
+import { useSelector, useDispatch} from 'react-redux';
+import { setCart } from '../redux/cart';
 
 
 function CartItem({id, image, name, quantity, line_total, permalink}){
-    const {setCart} = useCartDispatch();
+    const dispatch = useDispatch();
 
     const handleUpdateCart = ({cart}) =>{
-        setCart(cart);
+        dispatch(setCart(cart));
     }
 
     const removeItem = () =>{
@@ -56,11 +58,12 @@ function CartItem({id, image, name, quantity, line_total, permalink}){
 }
 
 export default function CartPage () {
-    const { line_items, subtotal } = useCartState();
-    const {setCart} = useCartDispatch();
+    const line_items = useSelector(state => state.cart.line_items);
+    const subtotal = useSelector(state => state.cart.subtotal);
+    const dispatch = useDispatch();
 
     const handleUpdateCart = ({cart}) =>{
-        setCart(cart);
+        dispatch(setCart(cart));
     }
     
     const emptyCart = () =>{
@@ -70,7 +73,6 @@ export default function CartPage () {
     const isEmpty = line_items.length === 0;
     
     return(
-        // <pre>{JSON.stringify(line_items, null, 2)}</pre>
         <>
             <MenuBar/>
             <div className={styles.cartPage}>

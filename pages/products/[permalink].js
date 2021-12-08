@@ -2,9 +2,10 @@ import commerce from "../../lib/commerce";
 import MenuBar from "../../components/MenuBar";
 import Footer from "../../components/Footer";
 import Image from 'next/image';
-
 import styles from '../../styles/ProductPage.module.css';
-import { useCartDispatch } from "../../context/cart";
+import { setCart } from "../../redux/cart";
+import { useDispatch } from 'react-redux';
+
 
 export async function getStaticProps({ params }) {
     const { permalink } = params;
@@ -33,11 +34,11 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  export default function ProductPage({ product, size }) {
-    const { setCart } = useCartDispatch();
+  export default function ProductPage({ product }) {
+    const dispatch = useDispatch();
 
     const addToCart = () =>{
-      commerce.cart.add(product.id).then(({cart}) => setCart(cart));
+      commerce.cart.add(product.id).then(({cart}) => dispatch(setCart(cart)));
     }
 
     return (

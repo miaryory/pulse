@@ -2,11 +2,11 @@ import React from 'react';
 import styles from '../styles/MenuBar.module.css';
 import { FaAlignJustify, FaSearch, FaRegUserCircle, FaShoppingBasket } from "react-icons/fa";
 import Link from 'next/link';
-import { useCartState } from '../context/cart';
+import { useSelector} from 'react-redux';
 
 export default function MenuBar(){
 
-    const { total_unique_items } = useCartState();
+    const total_unique_items = useSelector((state) => state.cart.total_unique_items);
 
     return(
         <div className={styles.menuBar}>

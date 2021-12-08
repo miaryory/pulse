@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import commerce from "../lib/commerce";
 import ProductList from "../components/ProductList";
 import MenuBar from '../components/MenuBar';

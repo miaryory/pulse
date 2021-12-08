@@ -1,10 +1,14 @@
-import { CartProvider } from '../context/cart';
 import '../styles/globals.css';
+import { store } from '../redux/store';
+import { Provider } from 'react-redux';
+import GetCart from '../components/GetCart';
+
 
 export default function MyApp({ Component, pageProps }) {
   return(
-    <CartProvider>
+    <Provider store={store}>
+      <GetCart/>
       <Component {...pageProps} />
-    </CartProvider>
+    </Provider>
   );
 }
