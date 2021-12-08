@@ -12,19 +12,28 @@ export const userSlice = createSlice({
   reducers: {
     //state = initialState
     //this is the action and logic
+    signup: async (state, action) => {
+        const request = await fetch('https://api.chec.io/v1/customers',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': 'sk_367064858fb2939a71856823f7cbeb5322ef250531792',
+            },
+            body: JSON.stringify({
+                email: 'miary.mahandry@gmail.com'
+            })
+        });
+
+        const data = await request.json();
+    },
     login: (state) => {
       state.loggedInUser = true;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = userSlice.actions;
+export const { signup, login } = userSlice.actions;
 
 export default userSlice.reducer;

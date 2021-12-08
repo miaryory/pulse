@@ -1,4 +1,3 @@
-import { useCartDispatch, useCartState } from "../context/cart";
 import commerce from '../lib/commerce';
 import MenuBar from "../components/MenuBar";
 import styles from '../styles/Cart.module.css';
