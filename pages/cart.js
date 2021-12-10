@@ -105,7 +105,9 @@ export default function CartPage () {
                             <p>{subtotal}</p>
                         </div>
 
-                        <button className={styles.checkoutBtn} >CHECKOUT</button>
+                        <Link href='/shipping' passHref>
+                            <button className={styles.checkoutBtn} >CHECKOUT</button>
+                        </Link>
                     </div>
                 }
             </div>
