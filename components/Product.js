@@ -12,7 +12,7 @@ export default function Product({ image, name, price }) {
 
             <p className={styles.productName}>{name.toUpperCase()}</p>
         
-            <p className={styles.productPrice}>{price}</p>
+            <p className={styles.productPrice} dangerouslySetInnerHTML={{__html: price}}></p>
             
         </div>
     );

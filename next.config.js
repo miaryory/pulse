@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ['cdn.chec.io'],
+    domains: ['miaryory.com'],
   },
   reactStrictMode: true,
 }

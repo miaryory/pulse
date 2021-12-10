@@ -12,9 +12,9 @@ export default function ProductList({ products, category }) {
 
         category == "All" ?
         <div key={product.permalink}>
-          <Link href={`/products/${product.permalink}`}>
+          <Link href={`/products/${product.id}`}>
             <a>
-              <Product image={product.image.url} name={product.name} price={product.price.formatted_with_code} />
+              <Product image={product.images[0].src} name={product.name} price={product.price_html} />
             </a>
           </Link>
         </div>
@@ -24,9 +24,9 @@ export default function ProductList({ products, category }) {
         product.categories.map((categ) => (
           categ.name == category ?
           <div key={product.permalink}>
-            <Link href={`/products/${product.permalink}`}>
+            <Link href={`/products/${product.id}`}>
               <a>
-                <Product image={product.image.url} name={product.name} price={product.price.formatted_with_code} />
+                <Product image={product.images[0].src} name={product.name} price={product.price_html} />
               </a>
             </Link>
           </div>

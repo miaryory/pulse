@@ -4,11 +4,16 @@ import ProductList from "../components/ProductList";
 import MenuBar from '../components/MenuBar';
 import Footer from '../components/Footer';
 import styles from '../styles/index.module.css';
+import woocommerce from "../lib/woocommerce";
 
+//client side rendering
+//.env used here
 export async function getStaticProps() {
-  const { data: categories } = await commerce.categories.list();
-  const { data: products } = await commerce.products.list();
-
+  //const { data: commercecategories } = await commerce.categories.list();
+  //const { data: commerceproducts } = await commerce.products.list();
+  const { data: products } = await woocommerce.get('products');
+  const { data: categories } = await woocommerce.get('products/categories');
+  
   return {
     props: {
       categories,
@@ -30,12 +35,15 @@ export default function IndexPage({ categories, products }) {
         <select className={styles.categoryDropdown} value={category} onChange={event => setCategory(event.target.value)}>
             <option value="All">ALL</option>
             {categories.map((categ) => (
+              categ.name == 'Uncategorized' ?
+              null
+              :
               <option key={categ.id} value={categ.name}>{categ.name.toUpperCase()}</option>
             ))}
         </select>
 
         <ProductList products={products} category={category} />
-        {/* <pre>{JSON.stringify(products, null, 2)}</pre> */}
+        {/* <pre>{JSON.stringify(wooproducts, null, 2)}</pre> */}
         
       </div>
       

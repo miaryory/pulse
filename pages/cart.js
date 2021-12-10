@@ -1,4 +1,5 @@
 import commerce from '../lib/commerce';
+import woocommerce from "../lib/woocommerce";
 import MenuBar from "../components/MenuBar";
 import styles from '../styles/Cart.module.css';
 import Image from 'next/image';
@@ -8,7 +9,7 @@ import { useSelector, useDispatch} from 'react-redux';
 import { setCart } from '../redux/cart';
 
 
-function CartItem({id, image, name, quantity, line_total, permalink}){
+function CartItem({id, image, name, quantity, line_total}){
     const dispatch = useDispatch();
 
     const handleUpdateCart = ({cart}) =>{
@@ -31,7 +32,7 @@ function CartItem({id, image, name, quantity, line_total, permalink}){
 
     return(
         <div className={styles.cartItem}>
-            <Link href={`/products/${permalink}`} passHref>
+            <Link href={`/products/${id}`} passHref>
                 <div className={styles.cartItemImage}>
                     <Image src={image.url} alt='Product' width={150} height={150} />
                 </div>
