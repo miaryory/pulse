@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { login } from '../redux/user';
 
+
 export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -10,7 +11,6 @@ export default function Login(){
 
     const handleSubmit = () => {
         event.preventDefault();
-        console.log('login');
         const user = {
             'email': email,
             'password': password

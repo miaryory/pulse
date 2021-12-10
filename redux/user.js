@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: null,
+  userToken: '',
   isLoggedIn: false,
+  userId: '',
+  userName: '',
 }
 
 export const signup = createAsyncThunk("user/signup",
@@ -47,6 +49,21 @@ export const login = createAsyncThunk("user/login",
             //return the token - data.token
             const data = await request.json();
             console.log(data);
+
+            const wpRequest = await fetch('https://miaryory.com/pulse/wp-json/wp/v2/users/me',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+data.token
+                }
+            });
+
+            const wpUser = await wpRequest.json();
+            console.log(wpUser);
+
+            const payload = {token: data.token, user: wpUser};
+            return payload;
         }
     }
 );
@@ -56,19 +73,39 @@ export const login = createAsyncThunk("user/login",
 export const userSlice = createSlice({
   name: 'user',
   initialState,
+  reducers:{
+      setUser: (state, action) => {
+        state.userToken = action.payload;
+        state.isLoggedIn = true;
+      },
+      logout: (state) =>{
+          state.userToken = '';
+          state.isLoggedIn = false;
+          state.userId = '';
+          window.localStorage.removeItem('user_token');
+          window.localStorage.removeItem('cart_key');
+      }
+  },
   extraReducers:{
       [signup.fulfilled]: (state, action) =>{
           //state.user = action.payload.id;
-          //window.localStorage.setItem('userId', action.payload.user.id);
-          //window.localStorage.setItem('jwtToken', action.payload.token.jwt);
       },
       [signup.rejected]: (state) =>{
           state.isLoggedIn = false;
       },
+      [login.fulfilled]: (state, action) =>{
+          state.userToken = action.payload.token;
+          state.isLoggedIn = true;
+          state.userId = action.payload.user.id;
+          window.localStorage.setItem('user_token', action.payload.token);
+      },
+      [login.rejected]: (state) =>{
+          state.isLoggedIn = false;
+      }
   }
 });
 
 // Action creators are generated for each case reducer function
-//export const { login } = userSlice.actions;
+export const { setUser, logout } = userSlice.actions;
 
 export default userSlice.reducer;
