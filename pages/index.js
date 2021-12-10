@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import commerce from "../lib/commerce";
 import ProductList from "../components/ProductList";
 import MenuBar from '../components/MenuBar';
 import Footer from '../components/Footer';
@@ -9,8 +8,6 @@ import woocommerce from "../lib/woocommerce";
 //client side rendering
 //.env used here
 export async function getStaticProps() {
-  //const { data: commercecategories } = await commerce.categories.list();
-  //const { data: commerceproducts } = await commerce.products.list();
   const { data: products } = await woocommerce.get('products');
   const { data: categories } = await woocommerce.get('products/categories');
   

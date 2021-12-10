@@ -81,7 +81,17 @@ export async function getStaticProps({ params }) {
 
             <div className={styles.productDescription} dangerouslySetInnerHTML={{__html: product.description}}></div>
             
-            <div>
+            <div className={styles.productAttributes}>
+              {product.attributes.map((attribute) => 
+                attribute.name === 'Size'?
+                  attribute.options.map((option)=> 
+                  <div className={styles.sizeOption} key={attribute.options.indexOf(option)}>
+                    <p>{option}</p>
+                  </div>
+                  )
+                :
+                null
+              )}
             </div>
 
             <button className={styles.addToCartBtn} onClick={addToCart}>ADD TO CART</button>

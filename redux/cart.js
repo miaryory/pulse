@@ -16,11 +16,17 @@ export const cartSlice = createSlice({
             state.item_count = action.payload.item_count;
             state.items = action.payload.items;
             state.subtotal = action.payload.totals.subtotal + ' ' +action.payload.currency.currency_symbol;
+        },
+        clearCart: (state) =>{
+            state.cart_key= '';
+            state.item_count= 0;
+            state.items= [];
+            state.subtotal= 0;
         }
     }
 });
 
-export const {setCart} = cartSlice.actions;
+export const {setCart, clearCart} = cartSlice.actions;
 
 export default cartSlice.reducer;
 

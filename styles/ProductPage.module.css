@@ -23,6 +23,23 @@
     opacity: 0.6;
 }
 
+.productAttributes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.sizeOption{
+    text-align: center;
+    height: 3rem;
+    width: 3rem;
+    background: var(--light-grey);
+    font-weight: bold;
+    border-radius: 5px;
+}
+
 .addToCartBtn{
     border: none;
     width: 100%;

@@ -1,4 +1,3 @@
-import commerce from '../lib/commerce';
 import cocart from '../lib/cocart';
 import MenuBar from "../components/MenuBar";
 import styles from '../styles/Cart.module.css';
@@ -6,7 +5,7 @@ import Image from 'next/image';
 import { FaTimes } from "react-icons/fa";
 import Link from "next/link";
 import { useSelector, useDispatch} from 'react-redux';
-import { setCart } from '../redux/cart';
+import { setCart, clearCart } from '../redux/cart';
 
 
 function CartItem({id, item_key, featured_image, name, quantity, price}){
@@ -72,14 +71,14 @@ export default function CartPage () {
     const subtotal = useSelector(state => state.cart.subtotal);
     const cartKey = useSelector(state => state.cart.cart_key);
     const dispatch = useDispatch();
-
-    const handleUpdateCart = ({cart}) =>{
-        //dispatch(setCart(cart));
-    }
     
     const emptyCart = () =>{
-        //commerce.cart.empty().then(handleUpdateCart);
-        //cocart.post("cart/clear?cart_key=").then(dispatch(emptyCart));
+        cocart.post("cart/clear?cart_key="+cartKey).then(() => {
+            if (typeof window !== "undefined") {
+                window.localStorage.removeItem('cart_key');
+                dispatch(clearCart());
+            }
+          });
     }
     
     const isEmpty = items.length === 0;
