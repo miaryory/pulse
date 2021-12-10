@@ -6,7 +6,7 @@ import { useSelector} from 'react-redux';
 
 export default function MenuBar(){
 
-    const total_unique_items = useSelector((state) => state.cart.total_unique_items);
+    const item_count = useSelector((state) => state.cart.item_count);
 
     return(
         <div className={styles.menuBar}>
@@ -34,9 +34,9 @@ export default function MenuBar(){
                     <Link href="/cart" passHref>
                         <FaShoppingBasket className={styles.menuIcon}  size={30} color={"black"}/>
                     </Link>
-                    {total_unique_items > 0 ?
+                    {item_count > 0 ?
                     <div className={styles.itemNumber}>
-                    <p>{total_unique_items}</p>
+                    <p>{item_count}</p>
                     </div> 
                     :
                     null

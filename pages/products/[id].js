@@ -1,21 +1,16 @@
-import commerce from "../../lib/commerce";
+import cocart from '../../lib/cocart';
 import MenuBar from "../../components/MenuBar";
 import Footer from "../../components/Footer";
 import Image from 'next/image';
 import styles from '../../styles/ProductPage.module.css';
 import { setCart } from "../../redux/cart";
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import woocommerce from '../../lib/woocommerce';
 
 
 export async function getStaticProps({ params }) {
     const { id } = params;
-
-  const { data: product } = await woocommerce.get(`products/${id}`);
-  
-    /*const product = await commerce.products.retrieve(id, {
-      type: 'permalink',
-    });*/
+    const { data: product } = await woocommerce.get(`products/${id}`);
 
     return {
       props: {
@@ -25,7 +20,6 @@ export async function getStaticProps({ params }) {
   }
 
   export async function getStaticPaths() {
-    //const { data: products } = await commerce.products.list();
     const { data: products } = await woocommerce.get('products');
   
     return {
@@ -40,10 +34,34 @@ export async function getStaticProps({ params }) {
 
   export default function ProductPage({ product }) {
     const dispatch = useDispatch();
+    const oldCart = useSelector(state => state.cart.cart_key);
 
     const addToCart = () =>{
-      //commerce.cart.add(product.id).then(({cart}) => dispatch(setCart(cart)));
-      console.log('added to cart - [id].js');
+      const prod ={
+        "id": product.id.toString(),
+        'quantity': "1"
+      }
+
+      if(oldCart !== ''){
+        cocart.post("cart/add-item?cart_key="+oldCart, prod).then((response) => {
+          dispatch(setCart(response.data));
+        })
+        .catch((error) => {
+          console.log("Response Data:", error.response.data);
+        });
+      }
+      
+      if(oldCart === ''){
+        cocart.post("cart/add-item", prod).then((response) => {
+          if (typeof window !== "undefined") {
+              window.localStorage.setItem('cart_key', response.data.cart_key);
+              dispatch(setCart(response.data));
+          }
+        })
+        .catch((error) => {
+          console.log("Response Data:", error.response.data);
+        });
+      }
     }
 
     return (

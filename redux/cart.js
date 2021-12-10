@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    total_items: 0,
-    total_unique_items: 0,
-    line_items: [],
+    cart_key: '',
+    item_count: 0,
+    items: [],
     subtotal: 0,
 }
 
@@ -12,10 +12,10 @@ export const cartSlice = createSlice({
     initialState,
     reducers:{
         setCart: (state, action) => {
-            state.total_items = action.payload.total_items;
-            state.total_unique_items = action.payload.total_unique_items;
-            state.line_items = action.payload.line_items;
-            state.subtotal = action.payload.subtotal;
+            state.cart_key = action.payload.cart_key;
+            state.item_count = action.payload.item_count;
+            state.items = action.payload.items;
+            state.subtotal = action.payload.totals.subtotal + ' ' +action.payload.currency.currency_symbol;
         }
     }
 });

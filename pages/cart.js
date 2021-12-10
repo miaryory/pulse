@@ -1,5 +1,5 @@
 import commerce from '../lib/commerce';
-import woocommerce from "../lib/woocommerce";
+import cocart from '../lib/cocart';
 import MenuBar from "../components/MenuBar";
 import styles from '../styles/Cart.module.css';
 import Image from 'next/image';
@@ -9,42 +9,52 @@ import { useSelector, useDispatch} from 'react-redux';
 import { setCart } from '../redux/cart';
 
 
-function CartItem({id, image, name, quantity, line_total}){
+function CartItem({id, item_key, featured_image, name, quantity, price}){
     const dispatch = useDispatch();
+    const cartKey = useSelector(state => state.cart.cart_key);
 
-    const handleUpdateCart = ({cart}) =>{
+    const handleUpdateCart = (cart) =>{
         dispatch(setCart(cart));
     }
 
     const removeItem = () =>{
-        commerce.cart.remove(id).then(handleUpdateCart);
+        cocart.delete("cart/item/"+item_key+"?cart_key="+cartKey+"&return_cart")
+        .then((response) => {
+            handleUpdateCart(response.data);
+        });
     }
 
     const decrementQty = () => {
-        quantity > 1 ? commerce.cart.update(id, {quantity: quantity -1}).then(handleUpdateCart)
+        quantity.value > 1 ? cocart.post("cart/item/"+item_key+"?cart_key="+cartKey+"&return_cart", {quantity: quantity.value -1})
+        .then((response) => {
+            handleUpdateCart(response.data);
+        })
         :
         removeItem();
     }
 
     const incrementQty = () => {
-        commerce.cart.update(id, {quantity: quantity+1}).then(handleUpdateCart);
+        cocart.post("cart/item/"+item_key+"?cart_key="+cartKey+"&return_cart", {quantity: quantity.value +1})
+        .then((response) => {
+            handleUpdateCart(response.data);
+        });
     }
 
     return(
         <div className={styles.cartItem}>
             <Link href={`/products/${id}`} passHref>
                 <div className={styles.cartItemImage}>
-                    <Image src={image.url} alt='Product' width={150} height={150} />
+                    <Image src={featured_image} alt='Product' width={150} height={150} />
                 </div>
             </Link>
 
             <div>
                 <p className={styles.cartItemName}>{name.toUpperCase()}</p>
                 <p className={styles.cartItemDetails}>details</p>
-                <p className={styles.cartItemPrice}>{line_total.formatted_with_code}</p>
+                <p className={styles.cartItemPrice}>{price*(quantity.value)}</p>
                 <div className={styles.quantityBtn}>
                     <button onClick={decrementQty}>-</button>
-                    <p>{quantity}</p>
+                    <p>{quantity.value}</p>
                     <button onClick={incrementQty}>+</button>
                 </div>
             </div>
@@ -58,19 +68,21 @@ function CartItem({id, image, name, quantity, line_total}){
 }
 
 export default function CartPage () {
-    const line_items = useSelector(state => state.cart.line_items);
+    const items = useSelector(state => state.cart.items);
     const subtotal = useSelector(state => state.cart.subtotal);
+    const cartKey = useSelector(state => state.cart.cart_key);
     const dispatch = useDispatch();
 
     const handleUpdateCart = ({cart}) =>{
-        dispatch(setCart(cart));
+        //dispatch(setCart(cart));
     }
     
     const emptyCart = () =>{
-        commerce.cart.empty().then(handleUpdateCart);
+        //commerce.cart.empty().then(handleUpdateCart);
+        //cocart.post("cart/clear?cart_key=").then(dispatch(emptyCart));
     }
     
-    const isEmpty = line_items.length === 0;
+    const isEmpty = items.length === 0;
     
     return(
         <>
@@ -83,15 +95,15 @@ export default function CartPage () {
                     <div>
                         <h1>CART</h1>
 
-                        {line_items.map(item => 
-                            <CartItem key={item.id} {...item}/> 
+                        {items.map(item => 
+                            <CartItem key={item.item_key} {...item}/> 
                         )}
 
                         <button className={styles.emptyCartBtn} onClick={emptyCart}>Empty cart</button>
 
                         <div className={styles.cartTotal}>
                             <p>TOTAL</p>
-                            <p>{subtotal.formatted_with_code}</p>
+                            <p>{subtotal}</p>
                         </div>
 
                         <button className={styles.checkoutBtn} >CHECKOUT</button>
