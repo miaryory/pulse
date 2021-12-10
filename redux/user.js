@@ -1,55 +1,53 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
-  jwtToken: '',
   user: null,
   isLoggedIn: false,
 }
 
 export const signup = createAsyncThunk("user/signup",
-    async (email) =>{
-        try{
-            const request = await fetch('https://api.chec.io/v1/customers',
+    async (user) =>{
+            const request = await fetch('https://miaryory.com/pulse/wp-json/wp/v2/users',
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Authorization': 'sk_367064858fb2939a71856823f7cbeb5322ef250531792',
+                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWlhcnlvcnkuY29tXC9wdWxzZSIsImlhdCI6MTYzOTE0NTIzMCwibmJmIjoxNjM5MTQ1MjMwLCJleHAiOjE2Mzk3NTAwMzAsImRhdGEiOnsidXNlciI6eyJpZCI6IjEifX19._IwPrTqWttevHhaBJ4BXBJo8nzday-_uVM8OFdj7Cq0=',
                 },
                 body: JSON.stringify({
-                    email: email,
+                    username: user.email,
+                    email: user.email,
+                    password: user.password,
+                    roles: 'customer'
                 })
             });
 
             if(request.ok){
-                const user = await request.json();
-                try{
-                    const request = await fetch('https://api.chec.io/v1/customers/'+user.id+'/issue-token',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Authorization': 'sk_367064858fb2939a71856823f7cbeb5322ef250531792',
-                        },
-                    });
-        
-                    const token = await request.json();
-                    return {user: user, token: token};
-                }
-                catch(error){
-                    console.log(error);
-                }
+                const data = await request.json();
+                console.log(data);
             }
-        }
-        catch(error){
-            console.log(error);
-        }
     }
 );
 
 export const login = createAsyncThunk("user/login",
-    async (email) =>{
-        
+    async (user) =>{
+        const request = await fetch('https://miaryory.com/pulse/wp-json/jwt-auth/v1/token',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: user.email,
+                password: user.password,
+            })
+        });
+
+        if(request.ok){
+            //return the token - data.token
+            const data = await request.json();
+            console.log(data);
+        }
     }
 );
 
@@ -60,8 +58,7 @@ export const userSlice = createSlice({
   initialState,
   extraReducers:{
       [signup.fulfilled]: (state, action) =>{
-          state.jwtToken = action.payload.token.jwt;
-          state.user = action.payload.user;
+          //state.user = action.payload.id;
           //window.localStorage.setItem('userId', action.payload.user.id);
           //window.localStorage.setItem('jwtToken', action.payload.token.jwt);
       },
