@@ -6,6 +6,7 @@ import styles from '../../styles/ProductPage.module.css';
 import { setCart } from "../../redux/cart";
 import { useSelector, useDispatch } from 'react-redux';
 import woocommerce from '../../lib/woocommerce';
+import { useState } from 'react';
 
 
 export async function getStaticProps({ params }) {
@@ -33,13 +34,21 @@ export async function getStaticProps({ params }) {
   }
 
   export default function ProductPage({ product }) {
+    const [size, setSize] = useState('S');
     const dispatch = useDispatch();
     const oldCart = useSelector(state => state.cart.cart_key);
 
+    const selectSize = (size) =>{
+      setSize(size);
+    }
+
     const addToCart = () =>{
       const prod ={
-        "id": product.id.toString(),
-        'quantity': "1"
+        'id': product.id.toString(),
+        'quantity': "1",
+        'item_data':{
+          'size': size.toString(),
+        }
       }
 
       if(oldCart !== ''){
@@ -85,9 +94,9 @@ export async function getStaticProps({ params }) {
               {product.attributes.map((attribute) => 
                 attribute.name === 'Size'?
                   attribute.options.map((option)=> 
-                  <div className={styles.sizeOption} key={attribute.options.indexOf(option)}>
+                  <button className={styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(option)}>
                     <p>{option}</p>
-                  </div>
+                  </button>
                   )
                 :
                 null

@@ -32,12 +32,17 @@
 }
 
 .sizeOption{
+    border: none;
     text-align: center;
     height: 3rem;
     width: 3rem;
     background: var(--light-grey);
     font-weight: bold;
     border-radius: 5px;
+}
+
+.sizeOption:active{
+    background: var(--dark-grey);
 }
 
 .addToCartBtn{

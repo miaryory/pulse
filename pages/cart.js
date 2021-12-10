@@ -8,7 +8,7 @@ import { useSelector, useDispatch} from 'react-redux';
 import { setCart, clearCart } from '../redux/cart';
 
 
-function CartItem({id, item_key, featured_image, name, quantity, price}){
+function CartItem({id, item_key, featured_image, name, cart_item_data, quantity, price}){
     const dispatch = useDispatch();
     const cartKey = useSelector(state => state.cart.cart_key);
 
@@ -49,7 +49,7 @@ function CartItem({id, item_key, featured_image, name, quantity, price}){
 
             <div>
                 <p className={styles.cartItemName}>{name.toUpperCase()}</p>
-                <p className={styles.cartItemDetails}>details</p>
+                <p className={styles.cartItemDetails}>{cart_item_data.size}</p>
                 <p className={styles.cartItemPrice}>{price*(quantity.value)}</p>
                 <div className={styles.quantityBtn}>
                     <button onClick={decrementQty}>-</button>
