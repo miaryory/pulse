@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styles from '../styles/Product.module.css';
 
-export default function Product({ image, name, price }) {
+export default function Product( { image, name, price }) {
     return (
         <div className={styles.productContainer} >
 

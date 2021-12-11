@@ -6,6 +6,7 @@ import { FaTimes } from "react-icons/fa";
 import Link from "next/link";
 import { useSelector, useDispatch} from 'react-redux';
 import { setCart, clearCart } from '../redux/cart';
+import { useRouter } from 'next/router';
 
 
 function CartItem({id, item_key, featured_image, name, cart_item_data, quantity, price}){
@@ -71,6 +72,7 @@ export default function CartPage () {
     const subtotal = useSelector(state => state.cart.subtotal);
     const cartKey = useSelector(state => state.cart.cart_key);
     const dispatch = useDispatch();
+    const router = useRouter();
     
     const emptyCart = () =>{
         cocart.post("cart/clear?cart_key="+cartKey).then(() => {
@@ -80,6 +82,13 @@ export default function CartPage () {
             }
           });
     }
+
+    /*const goToCheckout = () =>{
+        router.push({
+            pathname: '/shipping',
+            query: { cart: cartKey }
+          });
+    }*/
     
     const isEmpty = items.length === 0;
     
@@ -107,7 +116,8 @@ export default function CartPage () {
 
                         <Link href='/shipping' passHref>
                             <button className={styles.checkoutBtn} >CHECKOUT</button>
-                        </Link>
+                        </Link> 
+
                     </div>
                 }
             </div>
