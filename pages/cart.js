@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSelector, useDispatch} from 'react-redux';
 import { setCart, clearCart } from '../redux/cart';
 import { useRouter } from 'next/router';
+import { setLineItems } from '../redux/order';
 
 
 function CartItem({id, item_key, featured_image, name, cart_item_data, quantity, price}){
@@ -83,12 +84,19 @@ export default function CartPage () {
           });
     }
 
-    /*const goToCheckout = () =>{
+    const goToCheckout = () =>{
+        const lineItems = [];
+
+        items.map((item) =>
+            lineItems.push({product_id: item.id, name: item.name +' '+item.cart_item_data.size, quantity: item.quantity.value})
+        );
+
+        dispatch(setLineItems(lineItems));
+
         router.push({
             pathname: '/shipping',
-            query: { cart: cartKey }
-          });
-    }*/
+        });
+    }
     
     const isEmpty = items.length === 0;
     
@@ -114,9 +122,7 @@ export default function CartPage () {
                             <p>{subtotal}</p>
                         </div>
 
-                        <Link href='/shipping' passHref>
-                            <button className={styles.checkoutBtn} >CHECKOUT</button>
-                        </Link> 
+                        <button className={styles.checkoutBtn} onClick={goToCheckout} >CHECKOUT</button>
 
                     </div>
                 }

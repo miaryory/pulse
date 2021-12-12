@@ -1,7 +1,9 @@
 import MenuBar from "../components/MenuBar";
 import { useState } from 'react';
 import woocommerce from "../lib/woocommerce";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { setBilling } from "../redux/order";
 
 export async function getStaticProps() {
     const { data: shippingMethods} = await woocommerce.get('shipping/zones/1/methods');
@@ -23,17 +25,54 @@ export default function Shipping({shippingMethods}){
     const [country, setCountry] = useState('');
     const [postCode, setPostCode] = useState('');
     const [shipping, setShipping] = useState('');
+    const [shippingId, setShippingId] = useState('');
     const [shippingPrice, setShippingPrice] = useState(0);
     const cartItems = useSelector(state => state.cart.items);
     const cartTotal = useSelector(state => state.cart.subtotal);
+    const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleSubmit = () => {
         event.preventDefault();
         console.log('got ot pay');
+        //fill order info
+        const billingInfo = {
+            first_name: firstName,
+            last_name: lastName,
+            address_1: address,
+            address_2: "",
+            city: city,
+            state: "",
+            postcode: postCode,
+            country: country,
+            email: email,
+            phone: phoneNumber
+        }
+        
+        const shippingInfo = {
+            first_name: firstName,
+            last_name: lastName,
+            address_1: address,
+            address_2: "",
+            city: city,
+            state: "",
+            postcode: postCode,
+            country: country
+        }
+
+        const shippingLine = [{
+            method_id: shippingId,
+            method_title: shipping,
+            total: cartTotal
+        }];
+
+        dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
+        router.push('/payment');
     }
 
-    const handleShippingMethod = (name, price) =>{
+    const handleShippingMethod = (name, id, price) =>{
         setShipping(name);
+        setShippingId(id);
         setShippingPrice(price);
     }
 
@@ -88,7 +127,7 @@ export default function Shipping({shippingMethods}){
                                 <>
                                     <label >
                                         <input type="radio" name='shipping_selected' value={method.method_id} 
-                                        onChange={() => handleShippingMethod(method.method_title, 0)} />
+                                        onChange={() => handleShippingMethod(method.method_title, method.method_id, 0)} />
                                         {method.method_title}
                                     </label>
                                     <p>0</p>
@@ -97,7 +136,7 @@ export default function Shipping({shippingMethods}){
                                 <>
                                     <label >
                                         <input type="radio" name='shipping_selected' value={method.method_id} 
-                                        onChange={() => handleShippingMethod(method.method_title, method.settings.cost.value)} />
+                                        onChange={() => handleShippingMethod(method.method_title, method.method_id, method.settings.cost.value)} />
                                         {method.method_title}
                                     </label>
                                     <p>{method.settings.cost.value}</p>
