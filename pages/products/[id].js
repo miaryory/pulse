@@ -79,31 +79,37 @@ export async function getStaticProps({ params }) {
 
         <div className={styles.productPage}>
 
+          <div className={styles.productPageContainer}>
             <div className={styles.productImage} >
                     <Image src={product.images[0].src} alt='Product' width={500} height={500} />
             </div>
 
-            <div className={styles.productInfo}>
-                <h1 className={styles.productName}>{product.name.toUpperCase()}</h1>
-                <p dangerouslySetInnerHTML={{__html: product.price_html}}></p>
+            <div className={styles.productInfoContainer}>
+              <div className={styles.productInfo}>
+                  <h1 className={styles.productName}>{product.name.toUpperCase()}</h1>
+                  <p dangerouslySetInnerHTML={{__html: product.price_html}}></p>
+              </div>
+
+              <div className={styles.productDescription} dangerouslySetInnerHTML={{__html: product.description}}></div>
+              
+              <div className={styles.productAttributes}>
+                {product.attributes.map((attribute) => 
+                  attribute.name === 'Size'?
+                    attribute.options.map((option)=> 
+                    <button className={styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(option)}>
+                      <p>{option}</p>
+                    </button>
+                    )
+                  :
+                  null
+                )}
+              </div>
+
+              <button className="primaryBtn" onClick={addToCart}>ADD TO CART</button>
             </div>
 
-            <div className={styles.productDescription} dangerouslySetInnerHTML={{__html: product.description}}></div>
-            
-            <div className={styles.productAttributes}>
-              {product.attributes.map((attribute) => 
-                attribute.name === 'Size'?
-                  attribute.options.map((option)=> 
-                  <button className={styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(option)}>
-                    <p>{option}</p>
-                  </button>
-                  )
-                :
-                null
-              )}
-            </div>
+          </div>
 
-            <button className={styles.addToCartBtn} onClick={addToCart}>ADD TO CART</button>
 
         </div>
 

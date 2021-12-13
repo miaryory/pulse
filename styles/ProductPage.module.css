@@ -1,10 +1,21 @@
 .productPage{
-    padding: 1rem;
+    max-width: 90%;
+    margin: auto;
 }
 
 .productImage{
     border: 1px solid var(--light-grey);
     border-radius: 5px;
+    height: fit-content;
+    width: fit-content;
+    display: block;
+    margin: auto;
+    overflow: hidden;
+}
+
+.productInfoContainer{
+    max-width: 500px;
+    margin: auto;
 }
 
 .productInfo{
@@ -45,12 +56,25 @@
     background: var(--dark-grey);
 }
 
-.addToCartBtn{
-    border: none;
-    width: 100%;
-    padding: 1rem;
-    background: var(--black);
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
+@media all and (min-width: 711px){
+    .productPageContainer{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .productInfoContainer{
+        margin: inherit;
+    }
+
+    .productInfo{
+        display: block;
+    }
+}
+
+@media all and (min-width: 1025px) {
+    .productPage{
+        max-width: 70%;
+    }
+    
 }

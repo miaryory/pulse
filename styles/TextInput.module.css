@@ -1,0 +1,13 @@
+.inputDiv{
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+.inputField{
+    border: 1px solid var(--dark-grey);
+    background: transparent;
+    border-radius: 5px;
+    height: 36px;
+}

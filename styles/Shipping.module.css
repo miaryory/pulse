@@ -1,0 +1,60 @@
+.shippingPage{
+    max-width: 90%;
+    margin: auto;
+    padding-bottom: 3rem;
+}
+
+.shippingPage h1{
+    font-size: 20px;
+    text-align: center;
+}
+
+.shippingPage form{
+    /* max-width: 400px; */
+    /* margin: auto; */
+}
+
+.nameInputGroup{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.addressGroup ,.shippingMethodGroup, .shippingCartGroup{
+    margin-bottom: 3rem;
+    max-width: 400px;
+    margin: auto;
+}
+
+.shippingMethodCard{
+    background: var(--light-grey);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cartCard{
+    background: var(--light-grey);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 3rem;
+}
+
+.cartCardItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media all and (min-width: 769px) {
+    .shippingPage form{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+}

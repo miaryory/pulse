@@ -1,10 +1,39 @@
 .homePage{
-    padding: 0 1rem;
+    max-width: 90%;
+    margin: auto;
 }
 
-.categoryDropdown{
+.categoryDropdownMobile{
     border: none;
     background: transparent;
     padding: 1rem 0;
     font-weight: bold;
+}
+
+.categoryDropdownDesktop{
+    display: none;
+    font-weight: bold;
+}
+
+@media all and (min-width: 769px) {
+    .homePage{
+        display: grid;
+        grid-template-columns: 1fr 10fr;
+        gap: 1rem;
+    }
+
+    .categoryDropdownMobile{
+        display: none;
+    }
+
+    .categoryDropdownDesktop{
+        display: block;
+    }
+}
+
+@media all and (min-width: 1025px) {
+    .homePage{
+        max-width: 70%;
+    }
+
 }

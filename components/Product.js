@@ -7,7 +7,7 @@ export default function Product( { image, name, price }) {
         <div className={styles.productContainer} >
 
             <div className={styles.productImage} >
-                <Image src={image} alt='Product' width={200} height={200} />
+                <Image src={image} alt='Product' height={250} width={250}/>
             </div>
 
             <p className={styles.productName}>{name.toUpperCase()}</p>

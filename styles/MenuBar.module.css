@@ -3,10 +3,15 @@
     position: sticky;
     top: 0px;
     z-index: 1000;
-    padding: 1rem;
+}
+
+.menuBarContainer{
+    padding: 1rem 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    max-width: 90%;
+    margin: auto;
 }
 
 .menuIcon{
@@ -42,4 +47,17 @@
     justify-content: center;
     align-items: center;
     
+}
+
+@media all and (min-width: 481px){
+    .burgerMenu{
+        display: none;
+    }
+}
+
+@media all and (min-width: 1025px) {
+    .menuBarContainer{
+        max-width: 70%;
+    }
+
 }

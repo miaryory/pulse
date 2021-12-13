@@ -29,15 +29,27 @@ export default function IndexPage({ categories, products }) {
       <div className={styles.homePage}>
 
         {/* Category dropdown */}
-        <select className={styles.categoryDropdown} value={category} onChange={event => setCategory(event.target.value)}>
-            <option value="All">ALL</option>
-            {categories.map((categ) => (
-              categ.name == 'Uncategorized' ?
-              null
-              :
-              <option key={categ.id} value={categ.name}>{categ.name.toUpperCase()}</option>
-            ))}
-        </select>
+        <div>
+          <select className={styles.categoryDropdownMobile} value={category} onChange={event => setCategory(event.target.value)}>
+              <option value="All">ALL</option>
+              {categories.map((categ) => (
+                categ.name == 'Uncategorized' ?
+                null
+                :
+                <option key={categ.id} value={categ.name}>{categ.name.toUpperCase()}</option>
+              ))}
+          </select>
+
+          <div className={styles.categoryDropdownDesktop}>
+              <p onClick={() => setCategory("All")} >ALL</p>
+              {categories.map((categ) => (
+                categ.name == 'Uncategorized' ?
+                null
+                :
+                <p onClick={() => setCategory(categ.name)} key={categ.id}>{categ.name.toUpperCase()}</p>
+              ))}
+          </div>
+        </div>
 
         <ProductList products={products} category={category} />
         {/* <pre>{JSON.stringify(wooproducts, null, 2)}</pre> */}

@@ -4,6 +4,8 @@ import woocommerce from "../lib/woocommerce";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { setBilling } from "../redux/order";
+import TextInput from "../components/TextInput";
+import styles from '../styles/Shipping.module.css';
 
 export async function getStaticProps() {
     const { data: shippingMethods} = await woocommerce.get('shipping/zones/1/methods');
@@ -34,7 +36,7 @@ export default function Shipping({shippingMethods}){
 
     const handleSubmit = () => {
         event.preventDefault();
-        console.log('got ot pay');
+        console.log(firstName);
         //fill order info
         const billingInfo = {
             first_name: firstName,
@@ -79,89 +81,83 @@ export default function Shipping({shippingMethods}){
     return(
         <>
             <MenuBar/>
-            <div>
+            <div className={styles.shippingPage}>
 
                 <form onSubmit={handleSubmit}>
 
-                    <div>
-                        <h1>SHIPPING ADDRESS</h1>
-                        <label>
-                            First Name:
-                            <input type="text" value={firstName} onChange={event => setFirstName(event.target.value)} />
-                        </label>
-                        <label>
-                            Last Name:
-                            <input type="text" value={lastName} onChange={event => setLastName(event.target.value)} />
-                        </label>
-                        <label>
-                            Email:
-                            <input type="text" value={email} onChange={event => setEmail(event.target.value)} />
-                        </label>
-                        <label>
-                            Phone number:
-                            <input type="text" value={phoneNumber} onChange={event => setPhoneNumber(event.target.value)} />
-                        </label>
-                        <label>
-                            Address:
-                            <input type="text" value={address} onChange={event => setAddress(event.target.value)} />
-                        </label>
-                        <label>
-                            City:
-                            <input type="text" value={city} onChange={event => setCity(event.target.value)} />
-                        </label>
-                        <label>
-                            Country:
-                            <input type="text" value={country} onChange={event => setCountry(event.target.value)} />
-                        </label>
-                        <label>
-                            Postal Code:
-                            <input type="text" value={postCode} onChange={event => setPostCode(event.target.value)} />
-                        </label>
-                    </div>
-
-                    <div>
-                        <h1>SHIPPING METHOD</h1>
-                        {shippingMethods.map((method) =>
-                            <div key={method.id}>
-                                {method.method_id == 'free_shipping' ? 
-                                <>
-                                    <label >
-                                        <input type="radio" name='shipping_selected' value={method.method_id} 
-                                        onChange={() => handleShippingMethod(method.method_title, method.method_id, 0)} />
-                                        {method.method_title}
-                                    </label>
-                                    <p>0</p>
-                                </>
-                                : 
-                                <>
-                                    <label >
-                                        <input type="radio" name='shipping_selected' value={method.method_id} 
-                                        onChange={() => handleShippingMethod(method.method_title, method.method_id, method.settings.cost.value)} />
-                                        {method.method_title}
-                                    </label>
-                                    <p>{method.settings.cost.value}</p>
-                                </>
-                                }
+                    <div className={styles.shippingSection1}>
+                        <div className={styles.addressGroup}>
+                            <h1>SHIPPING ADDRESS</h1>
+                            {/* <label>
+                                First Name:
+                                <input className="inputField" type="text" value={firstName} onChange={event => setFirstName(event.target.value)} />
+                            </label> */}
+                            <div className={styles.nameInputGroup}>
+                                <TextInput label="First Name" value={firstName} onChange={event => setFirstName(event.target.value)} />
+                                <TextInput label="Last Name" value={lastName} onChange={event => setLastName(event.target.value)} />
                             </div>
-                        )}
-                    </div>
-
-                    <div>
-                        <h1>CART</h1>
-                        <div>
-                            {cartItems.map((item) =>
-                                <p key={item.item_key}>{item.name+' ('+item.cart_item_data.size +') x'
-                                +item.quantity.value+' '+item.totals.total}</p>
-                            )}
-
+                            <TextInput label="Email" value={email} onChange={event => setEmail(event.target.value)} />
+                            <TextInput label="Phone number" value={phoneNumber} onChange={event => setPhoneNumber(event.target.value)} />
+                            <TextInput label="Address" value={address} onChange={event => setAddress(event.target.value)} />
+                            <TextInput label="City" value={city} onChange={event => setCity(event.target.value)} />
+                            <TextInput label="Country" value={country} onChange={event => setCountry(event.target.value)} />
+                            <TextInput label="Postal Code" value={postCode} onChange={event => setPostCode(event.target.value)} />
                         </div>
-                        <p>Shipping: {shipping + ' '+ shippingPrice}</p>
 
-                        <p>TOTAL: {parseInt(shippingPrice)+parseInt(cartTotal)}</p>
+                        <div className={styles.shippingMethodGroup}>
+                            <h1>SHIPPING METHOD</h1>
+                            {shippingMethods.map((method) =>
+                                <div className={styles.shippingMethodCard} key={method.id}>
+                                    {method.method_id == 'free_shipping' ? 
+                                    <>
+                                        <label >
+                                            <input type="radio" name='shipping_selected' value={method.method_id} 
+                                            onChange={() => handleShippingMethod(method.method_title, method.method_id, 0)} />
+                                            {method.method_title}
+                                        </label>
+                                        <p style={{fontWeight:"bold"}}>0 Ar</p>
+                                    </>
+                                    : 
+                                    <>
+                                        <label >
+                                            <input type="radio" name='shipping_selected' value={method.method_id} 
+                                            onChange={() => handleShippingMethod(method.method_title, method.method_id, method.settings.cost.value)} />
+                                            {method.method_title}
+                                        </label>
+                                        <p style={{fontWeight:"bold"}} >{method.settings.cost.value} Ar</p>
+                                    </>
+                                    }
+                                </div>
+                            )}
+                        </div>
 
                     </div>
-                    
-                    <input type="submit" value="PAY" />
+
+                    <div className={styles.shippingSection2}>
+                        <div className={styles.shippingCartGroup}>
+                            <h1>CART</h1>
+                            <div className={styles.cartCard}>
+                                {cartItems.map((item) =>
+                                    <div className={styles.cartCardItem} key={item.item_key}>
+                                        <p>{item.name.toUpperCase()+' ('+item.cart_item_data.size +') x'+item.quantity.value}</p>
+                                        <p>{item.totals.total} Ar</p>
+                                    </div>
+                                )}
+
+                                <div className={styles.cartCardItem}>
+                                    <p>SHIPPING: {shipping} </p>
+                                    <p>{shippingPrice} Ar</p>
+                                </div>
+
+                                <div className={styles.cartCardItem}>
+                                    <p style={{fontWeight:"bold"}}>TOTAL</p>
+                                    <p  style={{fontWeight:"bold"}}>{parseInt(shippingPrice)+parseInt(cartTotal)} Ar</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <input className="primaryBtn" type="submit" value="GO TO PAYMENT" />
+                    </div>
                 </form>
 
             </div>
