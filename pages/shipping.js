@@ -34,9 +34,8 @@ export default function Shipping({shippingMethods}){
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         event.preventDefault();
-        console.log(firstName);
         //fill order info
         const billingInfo = {
             first_name: firstName,
@@ -69,9 +68,9 @@ export default function Shipping({shippingMethods}){
         }];
 
         dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
-        router.push('/payment');
+        //router.push('/payment');
     }
-
+      
     const handleShippingMethod = (name, id, price) =>{
         setShipping(name);
         setShippingId(id);

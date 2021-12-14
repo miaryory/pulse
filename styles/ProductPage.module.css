@@ -42,7 +42,7 @@
     margin: 2rem 0;
 }
 
-.sizeOption{
+.sizeOption, .selectedSize{
     border: none;
     text-align: center;
     height: 3rem;
@@ -52,8 +52,9 @@
     border-radius: 5px;
 }
 
-.sizeOption:active{
-    background: var(--dark-grey);
+.selectedSize{
+    background: var(--black);
+    color: white;
 }
 
 @media all and (min-width: 711px){
@@ -64,6 +65,7 @@
     }
     
     .productInfoContainer{
+        max-width: 400px;
         margin: inherit;
     }
 

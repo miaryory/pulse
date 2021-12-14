@@ -35,10 +35,12 @@ export async function getStaticProps({ params }) {
 
   export default function ProductPage({ product }) {
     const [size, setSize] = useState('S');
+    const [selected, setSelected] = useState('');
     const dispatch = useDispatch();
     const oldCart = useSelector(state => state.cart.cart_key);
 
-    const selectSize = (size) =>{
+    const selectSize = (sizeId, size) =>{
+      setSelected(sizeId);
       setSize(size);
     }
 
@@ -96,7 +98,7 @@ export async function getStaticProps({ params }) {
                 {product.attributes.map((attribute) => 
                   attribute.name === 'Size'?
                     attribute.options.map((option)=> 
-                    <button className={styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(option)}>
+                    <button className={ selected === attribute.options.indexOf(option) ? styles.selectedSize : styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(attribute.options.indexOf(option), option)}>
                       <p>{option}</p>
                     </button>
                     )
