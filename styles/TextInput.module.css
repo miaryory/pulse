@@ -1,3 +1,7 @@
+.inputLabel{
+    font-size: 14px;
+}
+
 .inputDiv{
     display: flex;
     flex-direction: column;
@@ -10,4 +14,5 @@
     background: transparent;
     border-radius: 5px;
     height: 36px;
+    padding: 3%;
 }

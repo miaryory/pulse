@@ -9,11 +9,6 @@
     text-align: center;
 }
 
-.shippingPage form{
-    /* max-width: 400px; */
-    /* margin: auto; */
-}
-
 .nameInputGroup{
     display: flex;
     flex-direction: row;

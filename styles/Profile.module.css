@@ -1,0 +1,14 @@
+.profilePage{
+    width: 90%;
+    margin: auto;
+}
+
+.profilePage h1{
+    font-size: 20px;
+}
+
+@media all and (min-width: 1025px) {
+    .profilePage{
+        max-width: 70%;
+    }
+}

@@ -6,12 +6,14 @@ import { setUser } from '../redux/user';
 export default function GetSessionInfo(){
     const dispatch = useDispatch();
     const oldCart = '';
-    const loggedUser = '';
+    const loggedUserToken = '';
+    const loggedUserId = '';
     
     //checks if the page is rendered to get the localStorage
     if (typeof window !== "undefined") {
         oldCart = window.localStorage.getItem('cart_key');
-        loggedUser = window.localStorage.getItem('user_token');
+        loggedUserToken = window.localStorage.getItem('user_token');
+        loggedUserId = window.localStorage.getItem('user_id');
         
         if(oldCart !== null){
             cocart.get('cart?cart_key='+oldCart).then((response) => {
@@ -19,8 +21,8 @@ export default function GetSessionInfo(){
             });
         }
 
-        if(loggedUser !== null){
-            dispatch(setUser(loggedUser));
+        if(loggedUserToken !== null){
+            dispatch(setUser({loggedUserToken: loggedUserToken, loggedUserId: loggedUserId}));
         }
     }
 

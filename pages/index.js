@@ -21,6 +21,12 @@ export async function getStaticProps() {
 
 export default function IndexPage({ categories, products }) {
   const [category, setCategory] = useState('All');
+  const [selected, setSelected] = useState('All');
+
+  const handleCategory = (category) => {
+    setCategory(category);
+    setSelected(category);
+  }
 
   return (
     <>
@@ -41,12 +47,12 @@ export default function IndexPage({ categories, products }) {
           </select>
 
           <div className={styles.categoryDropdownDesktop}>
-              <p onClick={() => setCategory("All")} >ALL</p>
+              <p className={selected === "All" ? styles.selectedCategory : styles.otherCategories} onClick={() => handleCategory("All")} >ALL</p>
               {categories.map((categ) => (
                 categ.name == 'Uncategorized' ?
                 null
                 :
-                <p onClick={() => setCategory(categ.name)} key={categ.id}>{categ.name.toUpperCase()}</p>
+                <p className={selected === categ.name ? styles.selectedCategory : styles.otherCategories} onClick={() => handleCategory(categ.name)} key={categ.id}>{categ.name.toUpperCase()}</p>
               ))}
           </div>
         </div>

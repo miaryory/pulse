@@ -4,8 +4,8 @@ export default function TextInput ({label, value, onChange}) {
 
   return(
     <div className={styles.inputDiv}>
-      <label>{label}</label>
-      <input className={styles.inputField} type="text" value={value} onChange={onChange} />
+      <label className={styles.inputLabel}>{label}</label>
+      <input className={styles.inputField} type={label === "Password" ? "password" : "text"} value={value} onChange={onChange} />
     </div>
   );
 

@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from '../styles/MenuBar.module.css';
 import { FaAlignJustify, FaSearch, FaRegUserCircle, FaShoppingBasket } from "react-icons/fa";
-import Link from 'next/link';
 import { useSelector} from 'react-redux';
 import { useRouter } from 'next/router';
 
 export default function MenuBar(){
-
     const item_count = useSelector((state) => state.cart.item_count);
     const router = useRouter();
 

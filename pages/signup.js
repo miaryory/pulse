@@ -1,8 +1,9 @@
 import MenuBar from "../components/MenuBar";
-import Link from "next/link";
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { signup } from '../redux/user';
+import TextInput from '../components/TextInput';
+import styles from '../styles/Signup.module.css';
 
 export default function SignUp(){
     const [email, setEmail] = useState('');
@@ -27,24 +28,13 @@ export default function SignUp(){
         <>
             <MenuBar/>
 
-            <form onSubmit={handleSubmit}>
-                <label>
-                    First Name:
-                    <input type="text" value={firstName} onChange={event => setFirstName(event.target.value)} />
-                </label>
-                <label>
-                    Last Name:
-                    <input type="text" value={lastName} onChange={event => setLastName(event.target.value)} />
-                </label>
-                <label>
-                    Email:
-                    <input type="text" value={email} onChange={event => setEmail(event.target.value)} />
-                </label>
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={event => setPassword(event.target.value)} />
-                </label>
-                <input type="submit" value="Submit" />
+            <form className={styles.signupForm} onSubmit={handleSubmit}>
+                <h1>CREATE AN ACCOUNT TO SEE YOUR ORDER HISTORY.</h1>
+                <TextInput label="First Name" value={firstName} onChange={event => setFirstName(event.target.value)} />
+                <TextInput label="Last Name" value={lastName} onChange={event => setLastName(event.target.value)} />
+                <TextInput label="Email" value={email} onChange={event => setEmail(event.target.value)} />
+                <TextInput label="Password" value={password} onChange={event => setPassword(event.target.value)} />
+                <input className="primaryBtn" type="submit" value="SIGN UP" />
             </form>
         </>
     );

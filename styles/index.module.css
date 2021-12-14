@@ -15,6 +15,14 @@
     font-weight: bold;
 }
 
+.otherCategories{
+    opacity: 0.5;
+}
+
+.selectedCategory{
+    opacity: 1;
+}
+
 @media all and (min-width: 769px) {
     .homePage{
         display: grid;

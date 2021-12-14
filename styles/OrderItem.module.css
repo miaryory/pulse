@@ -1,0 +1,15 @@
+.orderItemContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 1rem;
+    margin: 1rem 0;
+    background: var(--light-grey);
+    border: 1px solid var(--dark-grey);
+    border-radius: 5px;
+} 
+
+.orderHeader{
+    font-size: 12px;
+    opacity: 0.6;
+}

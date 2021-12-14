@@ -1,0 +1,15 @@
+.loginForm{
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+}
+
+.loginForm h1{
+    font-size: 1.5rem;
+    color: var(--dark-grey);
+    margin-bottom: 3rem;
+}
+
+.loginForm>*{
+    margin-bottom: 1rem;
+}
