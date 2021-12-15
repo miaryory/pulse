@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { signup } from '../redux/user';
 import TextInput from '../components/TextInput';
 import styles from '../styles/Signup.module.css';
+import Link from "next/link";
 
 export default function SignUp(){
     const [email, setEmail] = useState('');
@@ -34,6 +35,9 @@ export default function SignUp(){
                 <TextInput label="Last Name" value={lastName} onChange={event => setLastName(event.target.value)} />
                 <TextInput label="Email" value={email} onChange={event => setEmail(event.target.value)} />
                 <TextInput label="Password" value={password} onChange={event => setPassword(event.target.value)} />
+                <p>Already have an account?
+                    <Link href='/profile'> Login here</Link>
+                </p>
                 <input className="primaryBtn" type="submit" value="SIGN UP" />
             </form>
         </>

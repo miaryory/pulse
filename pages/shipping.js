@@ -68,7 +68,7 @@ export default function Shipping({shippingMethods}){
         }];
 
         dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
-        //router.push('/payment');
+        router.push('/payment');
     }
       
     const handleShippingMethod = (name, id, price) =>{
@@ -153,9 +153,9 @@ export default function Shipping({shippingMethods}){
                                     <p  style={{fontWeight:"bold"}}>{parseInt(shippingPrice)+parseInt(cartTotal)} Ar</p>
                                 </div>
                             </div>
+
+                            <input className="primaryBtn" type="submit" value="GO TO PAYMENT" />
                         </div>
-                        
-                        <input className="primaryBtn" type="submit" value="GO TO PAYMENT" />
                     </div>
                 </form>
 
