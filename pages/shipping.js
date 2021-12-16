@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { setBilling } from "../redux/order";
 import TextInput from "../components/TextInput";
 import styles from '../styles/Shipping.module.css';
+import getStripe from "../lib/stripe";
+
 
 export async function getStaticProps() {
     const { data: shippingMethods} = await woocommerce.get('shipping/zones/1/methods');
@@ -68,8 +70,45 @@ export default function Shipping({shippingMethods}){
         }];
 
         dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
-        router.push('/payment');
+        redirectToCheckout();
+        //router.push('/payment');
     }
+
+    const redirectToCheckout = async () => {
+        //create array of objects for line_items in stripe
+        const lineItems = [];
+            
+        cartItems.map((item) => {
+            const i = {
+                name: item.name,
+                amount: item.price,
+                currency: 'mga',
+                quantity: item.quantity.value,
+            }
+            lineItems.push(i);
+        });
+
+        lineItems.push({
+            name: 'Shipping' +shipping,
+            amount: shippingPrice,
+            currency: 'mga',
+            quantity: 1,
+        })
+
+        const request = await fetch('/api/checkout_sessions', {
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(lineItems),
+        });
+
+        if(request.ok){
+            const response = await request.json();
+            const stripe = await getStripe();
+            await stripe.redirectToCheckout({ sessionId: response.id });
+        }
+    }      
       
     const handleShippingMethod = (name, id, price) =>{
         setShipping(name);
