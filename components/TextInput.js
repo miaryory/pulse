@@ -10,12 +10,3 @@ export default function TextInput ({label, value, name, onChange, register, requ
   );
 
 }
-
-/*const TextInput = ({ label, value, onChange, register, required }) => (
-  <>
-    <label className={styles.inputLabel}>{label}</label>
-    <input {...register(label, { required })} className={styles.inputField} type={label === "Password" ? "password" : "text"} value={value} onChange={onChange}/>
-  </>
-);
-
-export default TextInput;*/

@@ -2,13 +2,20 @@ import MenuBar from "../components/MenuBar";
 import styles from '../styles/Thankyou.module.css';
 import {FaCheckCircle} from "react-icons/fa";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { clearCart } from '../redux/cart';
 
 export default function ThankYou(){
+    const dispatch = useDispatch();
+    const order = useSelector(state => state.order.order);
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
+        //console.log(order);
+        dispatch(clearCart());
+        /*if (typeof window !== "undefined") {
             window.localStorage.removeItem('cart_key');
-        }
+        }*/
     }, [])
 
     return(

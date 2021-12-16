@@ -17,11 +17,12 @@ export const cartSlice = createSlice({
             state.items = action.payload.items;
             state.subtotal = action.payload.totals.subtotal + ' ' +action.payload.currency.currency_symbol;
         },
-        clearCart: (state) =>{
+        clearCart: (state) => {
             state.cart_key= '';
             state.item_count= 0;
             state.items= [];
             state.subtotal= 0;
+            window.localStorage.removeItem('cart_key');
         }
     }
 });

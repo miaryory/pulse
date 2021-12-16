@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { getOrders, login, setOrders } from '../redux/user';
+import { login } from '../redux/user';
 import TextInput from '../components/TextInput';
 import styles from '../styles/Login.module.css';
 import Link from 'next/link';
@@ -20,9 +20,7 @@ export default function Login(){
             'email': email,
             'password': password
         }
-        dispatch(login(user)).then((response) =>{ 
-            dispatch(getOrders(response.payload.user.id));
-        });
+        dispatch(login(user));
     }
 
     return(

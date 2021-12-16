@@ -72,7 +72,6 @@ export default function Shipping({shippingMethods}){
 
         dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
         redirectToCheckout();
-        //router.push('/payment');
     }
 
     const redirectToCheckout = async () => {

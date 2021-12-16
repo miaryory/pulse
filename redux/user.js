@@ -9,7 +9,8 @@ const initialState = {
 }
 
 export const signup = createAsyncThunk("user/signup",
-    async (user) => {
+    async (user, { rejectWithValue }) => {
+        try{
             const request = await fetch('https://miaryory.com/pulse/wp-json/wp/v2/users',
             {
                 method: 'POST',
@@ -18,6 +19,8 @@ export const signup = createAsyncThunk("user/signup",
                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWlhcnlvcnkuY29tXC9wdWxzZSIsImlhdCI6MTYzOTE0NTIzMCwibmJmIjoxNjM5MTQ1MjMwLCJleHAiOjE2Mzk3NTAwMzAsImRhdGEiOnsidXNlciI6eyJpZCI6IjEifX19._IwPrTqWttevHhaBJ4BXBJo8nzday-_uVM8OFdj7Cq0=',
                 },
                 body: JSON.stringify({
+                    first_name: user.firstName,
+                    last_name: user.lastName,
                     username: user.email,
                     email: user.email,
                     password: user.password,
@@ -25,68 +28,106 @@ export const signup = createAsyncThunk("user/signup",
                 })
             });
 
-            if(request.ok){
-                const data = await request.json();
-                console.log(data);
+            if(!request.ok){
+                return rejectWithValue(response.data.message);
             }
+    
+            const data = await request.json();
+            console.log(data);
+        }
+        catch(err){
+            return rejectWithValue(err.response.data);
+        }
     }
 );
 
+//when loging in: get authentication token > get user info > get orders for that user
 export const login = createAsyncThunk("user/login",
-    async (user) => {
-        const request = await fetch('https://miaryory.com/pulse/wp-json/jwt-auth/v1/token',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: user.email,
-                password: user.password,
-            })
-        });
+    async (user, { dispatch, rejectWithValue }) => {
+        try{
+            const request = await fetch('https://miaryory.com/pulse/wp-json/jwt-auth/v1/token',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: user.email,
+                    password: user.password,
+                })
+            });
+    
+            if(!request.ok){
+                return rejectWithValue(response.data.message);
+            }
 
-        if(request.ok){
             //return the token - data.token
             const data = await request.json();
 
-            const wpRequest = await fetch('https://miaryory.com/pulse/wp-json/wp/v2/users/me',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+data.token
-                }
-            });
+            //once user is autenticated > get all info about the user
+            try{
+                const wpRequest = await fetch('https://miaryory.com/pulse/wp-json/wp/v2/users/me',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer '+data.token
+                    }
+                });
 
-            if(wpRequest.ok){
+                if(!wpRequest.ok){
+                    return rejectWithValue(err.response.data);
+                }
+    
                 const wpUser = await wpRequest.json();
-                //console.log(wpUser);
-                const payload = {token: data.token, user: wpUser};
-                return payload;
+
+                //once we have info about the user > get all orders for this customer with the ID
+                try{
+                    const orders = dispatch(getOrders(wpUser.id));
+                    //console.log(wpUser);
+                    const payload = {token: data.token, user: wpUser, orders: (await orders).payload};
+                    return payload;
+                }
+                catch(err){
+                    return rejectWithValue(err.response.data);
+                }
+
+            }
+            catch(err){
+                return rejectWithValue(err.response.data);
             }
 
+        }
+        catch(err){
+            return rejectWithValue(err.response.data);
         }
     }
 );
 
 export const getOrders = createAsyncThunk("user/getOrders",
-    async (userId) => {
-        //get orders for this customer
-        const ordersRequest = await fetch('https://miaryory.com/pulse//wp-json/wc/v2/orders?customer='+userId,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWlhcnlvcnkuY29tXC9wdWxzZSIsImlhdCI6MTYzOTE0NTIzMCwibmJmIjoxNjM5MTQ1MjMwLCJleHAiOjE2Mzk3NTAwMzAsImRhdGEiOnsidXNlciI6eyJpZCI6IjEifX19._IwPrTqWttevHhaBJ4BXBJo8nzday-_uVM8OFdj7Cq0='
+    async (userId, { rejectWithValue }) => {
+
+        try{
+            //get orders for this customer
+            const ordersRequest = await fetch('https://miaryory.com/pulse//wp-json/wc/v2/orders?customer='+userId,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWlhcnlvcnkuY29tXC9wdWxzZSIsImlhdCI6MTYzOTE0NTIzMCwibmJmIjoxNjM5MTQ1MjMwLCJleHAiOjE2Mzk3NTAwMzAsImRhdGEiOnsidXNlciI6eyJpZCI6IjEifX19._IwPrTqWttevHhaBJ4BXBJo8nzday-_uVM8OFdj7Cq0='
+                }
+            });
+
+            if(!ordersRequest.ok){
+                return rejectWithValue(err.response.data);
             }
-        });
-        
-        if(ordersRequest.ok){
+            
             const orders = await ordersRequest.json();
-            console.log(orders);
-;
+            //console.log(orders);
             return orders;
+        }
+        catch(err){
+            return rejectWithValue(err.response.data);
         }
     }
 );
@@ -124,14 +165,21 @@ export const userSlice = createSlice({
           state.userToken = action.payload.token;
           state.isLoggedIn = true;
           state.userId = action.payload.user.id;
+          state.orders = action.payload.orders;
           window.localStorage.setItem('user_token', action.payload.token);
           window.localStorage.setItem('user_id', action.payload.user.id);
       },
       [login.rejected]: (state) =>{
+          state.userToken = '';
           state.isLoggedIn = false;
+          state.userId = '';
+          state.orders = [];
       },
       [getOrders.fulfilled]: (state, action) => {
           state.orders = action.payload;
+      },
+      [getOrders.rejected]: (state) => {
+          state.orders = [];
       }
   }
 });

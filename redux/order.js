@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    payment_method: "",
-    payment_method_title: "",
+    payment_method: "stripe",
+    payment_method_title: "Stripe",
     set_paid: false,
     billing: {},
     shipping: {},
@@ -21,14 +21,10 @@ export const orderSlice = createSlice({
             state.billing = action.payload.billingInfo;
             state.shipping = action.payload.shippingInfo;
             state.shipping_lines = action.payload.shippingLine;
-        },
-        setPayment: (state, action) => {
-            state.payment_method = action.payload.paymentMethod;
-            state.payment_method_title = action.payload.paymentTitle;
         }
     }
 });
 
-export const {setLineItems, setBilling, setPayment} = orderSlice.actions;
+export const {setLineItems, setBilling} = orderSlice.actions;
 
 export default orderSlice.reducer;

@@ -1,6 +1,5 @@
 import woocommerce from "../lib/woocommerce";
 import MenuBar from "../components/MenuBar";
-import { setPayment } from "../redux/order";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
@@ -27,7 +26,7 @@ export default function Payment({paymentMethods}){
 
     const handleSubmit = () =>{
         event.preventDefault();
-        dispatch(setPayment({paymentMethod: paymentMethod, paymentTitle: paymentTitle}));
+        //dispatch(setPayment({paymentMethod: paymentMethod, paymentTitle: paymentTitle}));
         //clear the cart
         //clear redux state
         //create orde
