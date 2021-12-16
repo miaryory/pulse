@@ -34,7 +34,7 @@ export async function getStaticProps({ params }) {
   }
 
   export default function ProductPage({ product }) {
-    const [size, setSize] = useState('S');
+    const [size, setSize] = useState('');
     const [selected, setSelected] = useState('');
     const dispatch = useDispatch();
     const oldCart = useSelector(state => state.cart.cart_key);
@@ -107,7 +107,7 @@ export async function getStaticProps({ params }) {
                 )}
               </div>
 
-              <button className="primaryBtn" onClick={addToCart}>ADD TO CART</button>
+              <button className="primaryBtn" onClick={addToCart} disabled={size === '' ? true : false}>ADD TO CART</button>
             </div>
 
           </div>

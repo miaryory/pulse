@@ -2,8 +2,6 @@ import MenuBar from "../components/MenuBar";
 import styles from '../styles/Thankyou.module.css';
 import {FaCheckCircle} from "react-icons/fa";
 import { useEffect } from "react";
-import { useDispatch} from 'react-redux';
-import { clearCart } from '../redux/cart';
 
 export default function ThankYou(){
 

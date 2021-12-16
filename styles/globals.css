@@ -10,6 +10,7 @@ body {
   --dark-grey: #BDBDBD;
   --light-grey: #E0E0E0;
   --white: #FFFFFF;
+  --red: #EB5757;
 }
 
 a {
@@ -29,4 +30,16 @@ a {
     color: white;
     font-weight: bold;
     border-radius: 5px;
+}
+
+.primaryBtn:disabled{
+  background: var(--light-grey);
+  color: var(--dark-grey);
+}
+
+.inputErrorMsg{
+  color: var(--red);
+  font-size: 12px;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
 }

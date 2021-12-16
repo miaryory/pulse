@@ -1,5 +1,5 @@
 import MenuBar from "../components/MenuBar";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import woocommerce from "../lib/woocommerce";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import { setBilling } from "../redux/order";
 import TextInput from "../components/TextInput";
 import styles from '../styles/Shipping.module.css';
 import getStripe from "../lib/stripe";
-
+import { useForm } from "react-hook-form";
 
 export async function getStaticProps() {
     const { data: shippingMethods} = await woocommerce.get('shipping/zones/1/methods');
@@ -35,8 +35,9 @@ export default function Shipping({shippingMethods}){
     const cartTotal = useSelector(state => state.cart.subtotal);
     const router = useRouter();
     const dispatch = useDispatch();
+    const { register, formState: { errors }, handleSubmit } = useForm();
 
-    const handleSubmit = async() => {
+    const handleFormSubmit = async() => {
         event.preventDefault();
         //fill order info
         const billingInfo = {
@@ -116,30 +117,50 @@ export default function Shipping({shippingMethods}){
         setShippingPrice(price);
     }
 
+    const isEmpty = cartItems.length === 0;
+
     return(
         <>
             <MenuBar/>
+            {isEmpty ?
+            null
+            : 
+            <>
             <div className={styles.shippingPage}>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(handleFormSubmit)}>
 
                     <div className={styles.shippingSection1}>
                         <div className={styles.addressGroup}>
                             <h1>SHIPPING ADDRESS</h1>
-                            {/* <label>
-                                First Name:
-                                <input className="inputField" type="text" value={firstName} onChange={event => setFirstName(event.target.value)} />
-                            </label> */}
                             <div className={styles.nameInputGroup}>
-                                <TextInput label="First Name" value={firstName} onChange={event => setFirstName(event.target.value)} />
-                                <TextInput label="Last Name" value={lastName} onChange={event => setLastName(event.target.value)} />
+                                <div>
+                                    <TextInput register={register} required name="firstName" label="First Name" value={firstName} onChange={event => setFirstName(event.target.value)} />
+                                    {errors.firstName && <p className="inputErrorMsg">First Name is invalid.</p>}
+                                </div>
+
+                                <div>
+                                    <TextInput register={register} required name="lastName" label="Last Name" value={lastName} onChange={event => setLastName(event.target.value)} />
+                                    {errors.lastName && <p className="inputErrorMsg">Last Name is invalid.</p>}
+                                </div>
                             </div>
-                            <TextInput label="Email" value={email} onChange={event => setEmail(event.target.value)} />
-                            <TextInput label="Phone number" value={phoneNumber} onChange={event => setPhoneNumber(event.target.value)} />
-                            <TextInput label="Address" value={address} onChange={event => setAddress(event.target.value)} />
-                            <TextInput label="City" value={city} onChange={event => setCity(event.target.value)} />
-                            <TextInput label="Country" value={country} onChange={event => setCountry(event.target.value)} />
-                            <TextInput label="Postal Code" value={postCode} onChange={event => setPostCode(event.target.value)} />
+                            <TextInput register={register} required name="email" label="Email" value={email} onChange={event => setEmail(event.target.value)} />
+                            {errors.email && <p className="inputErrorMsg">Email is invalid.</p>}
+
+                            <TextInput register={register} required name="phoneNumber" label="Phone number" value={phoneNumber} onChange={event => setPhoneNumber(event.target.value)} />
+                            {errors.phoneNumber && <p className="inputErrorMsg">Phone Number is invalid.</p>}
+
+                            <TextInput register={register} required name="address" label="Address" value={address} onChange={event => setAddress(event.target.value)} />
+                            {errors.address && <p className="inputErrorMsg">Address is invalid.</p>}
+
+                            <TextInput register={register} required name="city" label="City" value={city} onChange={event => setCity(event.target.value)} />
+                            {errors.city && <p className="inputErrorMsg">City is invalid.</p>}
+
+                            <TextInput register={register} required name="country" label="Country" value={country} onChange={event => setCountry(event.target.value)} />
+                            {errors.country && <p className="inputErrorMsg">Country is invalid.</p>}
+
+                            <TextInput register={register} required name="postcode" label="Postal Code" value={postCode} onChange={event => setPostCode(event.target.value)} />
+                            {errors.postcode && <p className="inputErrorMsg">Postal Code is invalid.</p>}
                         </div>
 
                         <div className={styles.shippingMethodGroup}>
@@ -149,7 +170,7 @@ export default function Shipping({shippingMethods}){
                                     {method.method_id == 'free_shipping' ? 
                                     <>
                                         <label >
-                                            <input type="radio" name='shipping_selected' value={method.method_id} 
+                                            <input {...register("shippingMethod", {required: true})} type="radio" name='shipping_selected' value={method.method_id} 
                                             onChange={() => handleShippingMethod(method.method_title, method.method_id, 0)} />
                                             {method.method_title}
                                         </label>
@@ -158,7 +179,7 @@ export default function Shipping({shippingMethods}){
                                     : 
                                     <>
                                         <label >
-                                            <input type="radio" name='shipping_selected' value={method.method_id} 
+                                            <input {...register("shippingMethod", {required: true})} type="radio" name='shipping_selected' value={method.method_id} 
                                             onChange={() => handleShippingMethod(method.method_title, method.method_id, method.settings.cost.value)} />
                                             {method.method_title}
                                         </label>
@@ -167,6 +188,7 @@ export default function Shipping({shippingMethods}){
                                     }
                                 </div>
                             )}
+                            {errors.shippingMethod && <p className="inputErrorMsg">Choose a shipping method.</p>}
                         </div>
 
                     </div>
@@ -199,6 +221,8 @@ export default function Shipping({shippingMethods}){
                 </form>
 
             </div>
+            </>
+            }
         </>
     );
 }

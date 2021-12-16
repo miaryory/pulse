@@ -24,23 +24,25 @@ export default function Profile(){
 
     return(
         <>
-            <MenuBar/>
             {isLoggedIn ? 
-                <div className={styles.profilePage}>
-                <h1>ORDER HISTORY</h1>
-                
-                <div>
-                    {allOrders.length > 0 ? 
-                        allOrders.map((order) =>
-                        <OrderItem key={order.id} number={order.number} status={order.status} 
-                        total={order.total + " "+order.currency_symbol} />
-                        )
-                        : 
-                        <p>You dont have any order.</p>}
-                </div>
-                
-                <button className="primaryBtn" onClick={handleLogout}>LOG OUT</button>
-                </div>
+                <>
+                    <MenuBar/>
+                    <div className={styles.profilePage}>
+                    <h1>ORDER HISTORY</h1>
+                    
+                    <div>
+                        {allOrders.length > 0 ? 
+                            allOrders.map((order) =>
+                            <OrderItem key={order.id} number={order.number} status={order.status} 
+                            total={order.total + " "+order.currency_symbol} />
+                            )
+                            : 
+                            <p>You dont have any order.</p>}
+                    </div>
+                    
+                    <button className="primaryBtn" onClick={handleLogout}>LOG OUT</button>
+                    </div>
+                </>
             : 
             <Login/>}
             
