@@ -11,29 +11,50 @@ const initialState = {
 export const signup = createAsyncThunk("user/signup",
     async (user, { rejectWithValue }) => {
         try{
-            const request = await fetch('https://miaryory.com/pulse/wp-json/wp/v2/users',
+            const requestToken = await fetch('https://miaryory.com/pulse/wp-json/jwt-auth/v1/token',
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWlhcnlvcnkuY29tXC9wdWxzZSIsImlhdCI6MTYzOTE0NTIzMCwibmJmIjoxNjM5MTQ1MjMwLCJleHAiOjE2Mzk3NTAwMzAsImRhdGEiOnsidXNlciI6eyJpZCI6IjEifX19._IwPrTqWttevHhaBJ4BXBJo8nzday-_uVM8OFdj7Cq0=',
                 },
                 body: JSON.stringify({
-                    first_name: user.firstName,
-                    last_name: user.lastName,
-                    username: user.email,
-                    email: user.email,
-                    password: user.password,
-                    roles: 'customer'
+                    username: 'admin',
+                    password: 'Mahandry.98',
                 })
             });
 
-            if(!request.ok){
-                return rejectWithValue(response.data.message);
+            if(!requestToken.ok){
+                return rejectWithValue();
             }
     
-            const data = await request.json();
-            console.log(data);
+            const token = await requestToken.json();
+
+            try{
+                const request = await fetch('https://miaryory.com/pulse/wp-json/wp/v2/users',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer '+token.token,
+                    },
+                    body: JSON.stringify({
+                        first_name: user.firstName,
+                        last_name: user.lastName,
+                        username: user.email,
+                        email: user.email,
+                        password: user.password,
+                        roles: 'customer'
+                    })
+                });
+    
+                if(!request.ok){
+                    return rejectWithValue();
+                }
+        
+            }
+            catch(err){
+                return rejectWithValue(err.response.data);
+            }
         }
         catch(err){
             return rejectWithValue(err.response.data);
@@ -58,7 +79,7 @@ export const login = createAsyncThunk("user/login",
             });
     
             if(!request.ok){
-                return rejectWithValue(response.data.message);
+                return rejectWithValue();
             }
 
             //return the token - data.token
@@ -76,7 +97,7 @@ export const login = createAsyncThunk("user/login",
                 });
 
                 if(!wpRequest.ok){
-                    return rejectWithValue(err.response.data);
+                    return rejectWithValue();
                 }
     
                 const wpUser = await wpRequest.json();
@@ -108,23 +129,47 @@ export const getOrders = createAsyncThunk("user/getOrders",
     async (userId, { rejectWithValue }) => {
 
         try{
-            //get orders for this customer
-            const ordersRequest = await fetch('https://miaryory.com/pulse//wp-json/wc/v2/orders?customer='+userId,
+
+            const requestToken = await fetch('https://miaryory.com/pulse/wp-json/jwt-auth/v1/token',
             {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWlhcnlvcnkuY29tXC9wdWxzZSIsImlhdCI6MTYzOTE0NTIzMCwibmJmIjoxNjM5MTQ1MjMwLCJleHAiOjE2Mzk3NTAwMzAsImRhdGEiOnsidXNlciI6eyJpZCI6IjEifX19._IwPrTqWttevHhaBJ4BXBJo8nzday-_uVM8OFdj7Cq0='
-                }
+                },
+                body: JSON.stringify({
+                    username: 'admin',
+                    password: 'Mahandry.98',
+                })
             });
 
-            if(!ordersRequest.ok){
+            if(!requestToken.ok){
+                return rejectWithValue();
+            }
+    
+            const token = await requestToken.json();
+
+            try{
+                //get orders for this customer
+                const ordersRequest = await fetch('https://miaryory.com/pulse//wp-json/wc/v2/orders?customer='+userId,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer '+ token.token
+                    }
+                });
+    
+                if(!ordersRequest.ok){
+                    return rejectWithValue();
+                }
+                
+                const orders = await ordersRequest.json();
+                //console.log(orders);
+                return orders;
+            }
+            catch(err){
                 return rejectWithValue(err.response.data);
             }
-            
-            const orders = await ordersRequest.json();
-            //console.log(orders);
-            return orders;
         }
         catch(err){
             return rejectWithValue(err.response.data);
