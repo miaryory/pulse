@@ -5,6 +5,7 @@ import { logout, getOrders } from "../redux/user";
 import Login from "./login";
 import OrderItem from "../components/OrderItem";
 import styles from '../styles/Profile.module.css';
+import Footer from "../components/Footer";
 
 export default function Profile(){
     const isLoggedIn = useSelector(state => state.user.isLoggedIn);
@@ -42,6 +43,7 @@ export default function Profile(){
                         
                         <button className="primaryBtn" onClick={handleLogout}>LOG OUT</button>
                     </div>
+                    <Footer/>
                 </>
             : 
             <Login/>}

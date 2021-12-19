@@ -6,6 +6,7 @@ import styles from '../styles/Login.module.css';
 import Link from 'next/link';
 import { useForm } from "react-hook-form";
 import MenuBar from '../components/MenuBar';
+import Footer from '../components/Footer';
 
 
 export default function Login(){
@@ -39,6 +40,7 @@ export default function Login(){
                 </p>
                 <input className="primaryBtn" type="submit" value="LOG IN" />
             </form>
+            <Footer/>
         </>
     );
 }
