@@ -36,8 +36,7 @@ export default async function handler(req, res) {
             }
 
             // Return a response to acknowledge receipt of the event.
-            //res.json({ received: true });
-            res.send();
+            res.json({ received: true });
             
         } catch(err) {
             console.log(`❌ Error message: ${err.message}`);
