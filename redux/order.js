@@ -1,8 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
-let billing, shipping_lines, line_items, shipping;
+const woocommerce = new WooCommerceRestApi({
+    url: "https://miaryory.com/pulse/",
+    consumerKey: 'ck_5cf4431c368c435e78af69db4420aee290953554',
+    consumerSecret: 'cs_8187b3569cf2ed1899a0eb7d261c77a7db21f8c4',
+    version: "wc/v3",
+    queryStringAuth: true
+});
+
+let billing, shipping_lines, line_items, shipping, user_id;
 
 if (typeof window !== "undefined") {
+    if(window.localStorage.getItem('user_id')){
+        user_id = JSON.parse(window.localStorage.getItem('user_id'));
+    }
     if(window.localStorage.getItem('order.billing')){
         billing = JSON.parse(window.localStorage.getItem('order.billing'));
     }
@@ -17,16 +29,30 @@ if (typeof window !== "undefined") {
     }
 }
 
-
 const initialState = {
+    customer_id: user_id ? user_id : 0,
     payment_method: "card",
     payment_method_title: "Card",
     set_paid: false,
     billing: billing ? billing : {},
     shipping: shipping ? shipping : {},
     line_items: line_items? line_items : [],
-    shipping_lines: shipping_lines ? shipping_lines : [{total: 0}]
-  };
+    shipping_lines: shipping_lines ? shipping_lines : [{total: '0'}],
+};
+
+export const createOrder = createAsyncThunk('order/createOrder',
+    async (order, { rejectWithValue }) =>{
+        woocommerce.post("orders", order)
+        .then((response) => {
+            console.log(response.data.id);
+            const orderId = response.data.id;
+            return orderId;
+        })
+        .catch((error) => {
+            rejectWithValue(error.response.data);
+        });
+    }
+);
 
 export const orderSlice = createSlice({
     name: 'order',
@@ -43,10 +69,25 @@ export const orderSlice = createSlice({
             window.localStorage.setItem('order.billing', JSON.stringify(action.payload.billingInfo));
             window.localStorage.setItem('order.shipping', JSON.stringify(action.payload.shippingInfo));
             window.localStorage.setItem('order.shipping_lines', JSON.stringify(action.payload.shippingLine));
+        },
+        clearOrderStored: (state) =>{
+            state.billing = {},
+            state.shipping = {},
+            state.line_items = [],
+            state.shipping_lines = [{total: '0'}],
+            window.localStorage.removeItem('order.line_items');
+            window.localStorage.removeItem('order.billing');
+            window.localStorage.removeItem('order.shipping');
+            window.localStorage.removeItem('order.shipping_lines');
         }
+    },
+    extraReducers:{
+        [createOrder.rejected]: (state) => {
+            console.log('createOrder rejected');
+        },
     }
 });
 
-export const {setLineItems, setBilling} = orderSlice.actions;
+export const {setLineItems, setBilling, clearOrderStored} = orderSlice.actions;
 
 export default orderSlice.reducer;

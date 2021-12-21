@@ -64,10 +64,12 @@ export default function Shipping({shippingMethods}){
             country: country
         }
 
+        const totalAmount = parseInt(cartTotal) + parseInt(shippingPrice);
+
         const shippingLine = [{
             method_id: shippingId,
             method_title: shipping,
-            total: parseInt(cartTotal) + parseInt(shippingPrice)
+            total: totalAmount.toString()
         }];
 
         dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
