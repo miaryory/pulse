@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         const signature = req.headers['stripe-signature'];
         try {
             event = stripe.webhooks.constructEvent(
-                request.body,
+                req.body,
                 signature,
                 process.env.STRIPE_WEBHOOK_SECRET
             );
