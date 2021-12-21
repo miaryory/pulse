@@ -15,9 +15,11 @@
 .productName{
     margin: 0;
     margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .productPrice{
     margin: 0;
     font-weight: bold;
+    text-align: center;
 }

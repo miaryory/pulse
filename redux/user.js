@@ -19,7 +19,7 @@ export const signup = createAsyncThunk("user/signup",
                 },
                 body: JSON.stringify({
                     username: 'admin',
-                    password: 'Mahandry.98',
+                    password: 'C1WW 7EiF B6tE SRxg i9Lw L6I3',
                 })
             });
 
@@ -138,7 +138,7 @@ export const getOrders = createAsyncThunk("user/getOrders",
                 },
                 body: JSON.stringify({
                     username: 'admin',
-                    password: 'Mahandry.98',
+                    password: 'C1WW 7EiF B6tE SRxg i9Lw L6I3',
                 })
             });
 

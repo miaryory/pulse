@@ -8,13 +8,14 @@ import woocommerce from "../lib/woocommerce";
 //client side rendering
 //.env used here
 export async function getStaticProps() {
-  const { data: products } = await woocommerce.get('products');
+
+  const { data: products } = await woocommerce.get('products?per_page=9');
   const { data: categories } = await woocommerce.get('products/categories');
   
   return {
     props: {
       categories,
-      products,
+      products
     },
   };
 }
@@ -58,8 +59,8 @@ export default function IndexPage({ categories, products }) {
         </div>
 
         <ProductList products={products} category={category} />
+
         {/* <pre>{JSON.stringify(wooproducts, null, 2)}</pre> */}
-        
       </div>
       
       <Footer/>
