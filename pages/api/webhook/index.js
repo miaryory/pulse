@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         const signature = req.headers['stripe-signature'];
         try {
             event = stripe.webhooks.constructEvent(
-                request.body,
+                req.body,
                 signature,
                 process.env.STRIPE_WEBHOOK_SECRET
             );
@@ -36,8 +36,7 @@ export default async function handler(req, res) {
             }
 
             // Return a response to acknowledge receipt of the event.
-            //res.json({ received: true });
-            res.send();
+            res.json({ received: true });
             
         } catch(err) {
             console.log(`❌ Error message: ${err.message}`);
