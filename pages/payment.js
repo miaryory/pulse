@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import styles from '../styles/Payment.module.css';
 import { useRouter } from "next/router";
+import { clearCart } from "../redux/cart";
+import { clearOrderStored, createOrder } from "../redux/order";
 
 export async function getStaticProps() {
     const { data: paymentMethods} = await woocommerce.get('payment_gateways');
@@ -18,8 +20,6 @@ export async function getStaticProps() {
 
 export default function Payment({paymentMethods}){
     const [displayStripe, setDisplayStripe] = useState(false);
-
-    const dispatch = useDispatch();
     const [paymentMethod, setPaymentMethod] = useState('');
     const [succeeded, setSucceeded] = useState(false);
     const [error, setError] = useState(null);
@@ -30,6 +30,14 @@ export default function Payment({paymentMethods}){
     const stripe = useStripe();
     const elements = useElements();
     const router = useRouter();
+    const dispatch = useDispatch();
+    const payment_method = useSelector(state => state.order.payment_method);
+    const payment_method_title = useSelector(state => state.order.payment_method_title);
+    const billing = useSelector(state => state.order.billing);
+    const shipping = useSelector(state => state.order.shipping);
+    const line_items = useSelector(state => state.order.line_items);
+    const shipping_lines = useSelector(state => state.order.shipping_lines);
+    const customer_id = useSelector(state => state.order.customer_id);
     
     useEffect(() => {
         //create a payment intent as soon as the user lands on the payment page
@@ -53,8 +61,6 @@ export default function Payment({paymentMethods}){
     }, []);
 
     const handleChange = async (event) => {
-        // Listen for changes in the CardElement
-        // and display any errors as the customer types their card details
         setDisabled(event.empty);
         setError(event.error ? event.error.message : "");
     };
@@ -70,8 +76,32 @@ export default function Payment({paymentMethods}){
         }
     }
 
+    //construct the payload to send the order to Woocomerce
+    const orderPayload = {
+        customer_id: customer_id,
+        payment_method: payment_method,
+        payment_method_title: payment_method_title,
+        set_paid: true,
+        billing: billing,
+        shipping: shipping,
+        line_items: line_items,
+        shipping_lines: shipping_lines
+    };
+
+    const successOrder = () =>{
+        dispatch(createOrder(orderPayload));
+        dispatch(clearCart());
+        dispatch(clearOrderStored());
+        router.push('/thankyou');
+    }
+
     const handleSubmit = async() =>{
         event.preventDefault();
+
+        // Stripe.js has not yet loaded.
+        if (!stripe || !elements) {
+            return;
+        }
 
         if(paymentMethod === "card"){
             setProcessing(true);
@@ -86,24 +116,19 @@ export default function Payment({paymentMethods}){
                 setError(`Payment failed ${payload.error.message}`);
                 setProcessing(false);
             } else {
-                setError(null);
-                setProcessing(false);
-                setSucceeded(true);
-                //router.push('/thankyou');
+                if(payload.paymentIntent.status === 'succeeded'){
+                    setError(null);
+                    setProcessing(false);
+                    setSucceeded(true);
+                    successOrder();
+                }
             }
         }
         else{
-            router.push('/thankyou');
+            successOrder();
         }
-        //dispatch(setPayment({paymentMethod: paymentMethod, paymentTitle: paymentTitle}));
-        //clear the cart
-        //clear redux state
-        //create orde
-        //clear cookies
-        //redirect to thank you screen
-        //send email??
     }
-
+    
     return(
         <>
             <MenuBar/>
