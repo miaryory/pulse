@@ -89,7 +89,7 @@ export default function Payment({paymentMethods}){
                 setError(null);
                 setProcessing(false);
                 setSucceeded(true);
-                router.push('/thankyou');
+                //router.push('/thankyou');
             }
         }
         else{

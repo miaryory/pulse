@@ -11,15 +11,35 @@ export const config = {
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         let event = req.body;
-        const signature = request.headers['stripe-signature'];
+        const signature = req.headers['stripe-signature'];
         try {
             event = stripe.webhooks.constructEvent(
                 request.body,
                 signature,
                 process.env.STRIPE_WEBHOOK_SECRET
             );
+
+            // Successfully constructed event
+            console.log('✅ Success:', event.id);
+
+            // Handle event type (add business logic here)
+            if (event.type === 'payment_intent.succeeded') {
+                console.log(`💰  Payment received!`);
+            } 
+            if (event.type === 'charge.succeeded') {
+                console.log(`💰  Payment received!`);
+                router.push('/thankyou');
+                window.localStorage.removeItem('cart_key');
+            } 
+            else {
+                console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
+            }
+
+            // Return a response to acknowledge receipt of the event.
+            //res.json({ received: true });
+            res.send();
             
-        } catch (err) {
+        } catch(err) {
             console.log(`❌ Error message: ${err.message}`);
             res.status(400).json({ message: `Webhook Error: ${err.message}` });
             return;
