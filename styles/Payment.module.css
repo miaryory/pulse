@@ -1,0 +1,26 @@
+.paymentPage{
+    max-width: 400px;
+    width: 90%;
+    margin: auto;
+}
+
+.paymentPage h1{
+    text-align: center;
+}
+
+.paymentPage h2{
+    font-size: 1.5rem;
+    color: var(--dark-grey);
+    margin-bottom: 1rem;
+}
+
+.paymentRadioBtn{
+    margin: 1rem 0;
+}
+
+.cardContainer{
+    margin: 1rem 0;
+    border: 1px solid var(--light-grey);
+    border-radius: 5px;
+    padding: 2rem 1rem;
+}

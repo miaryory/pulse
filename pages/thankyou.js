@@ -12,7 +12,7 @@ export default function ThankYou(){
 
     useEffect(() => {
         //console.log(order);
-        dispatch(clearCart());
+        //dispatch(clearCart());
         /*if (typeof window !== "undefined") {
             window.localStorage.removeItem('cart_key');
         }*/

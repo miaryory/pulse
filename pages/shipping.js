@@ -1,5 +1,5 @@
 import MenuBar from "../components/MenuBar";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import woocommerce from "../lib/woocommerce";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -67,13 +67,13 @@ export default function Shipping({shippingMethods}){
         const shippingLine = [{
             method_id: shippingId,
             method_title: shipping,
-            total: cartTotal
+            total: parseInt(cartTotal) + parseInt(shippingPrice)
         }];
 
         dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
-        redirectToCheckout();
+        //redirectToCheckout();
+        router.push('/payment');
     }
-
     const redirectToCheckout = async () => {
         //create array of objects for line_items in stripe
         const lineItems = [];
