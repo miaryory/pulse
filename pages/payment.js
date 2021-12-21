@@ -58,7 +58,7 @@ export default function Payment({paymentMethods}){
             }
         }
         createPaymentIntent();
-    }, []);
+    }, [finalTotal]);
 
     const handleChange = async (event) => {
         setDisabled(event.empty);
