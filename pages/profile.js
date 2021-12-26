@@ -17,7 +17,7 @@ export default function Profile(){
         if(userId){
             dispatch(getOrders(userId));
         }
-    }, [])
+    });
 
     const handleLogout = () =>{
         dispatch(logout());
