@@ -3,14 +3,14 @@ import Link from "next/link";
 import Product from "./Product";
 import styles from '../styles/ProductList.module.css';
 
-export default function ProductList({ products, category }) {
+export default function ProductList({ products, mycategory }) {
   if (!products) return null;
 
   return (
     <div className={styles.producList}>
       {products.map((product) => (
 
-        category == "All" ?
+        mycategory == "All" ?
         <div key={product.permalink}>
           <Link href={`/products/${product.id}`}>
             <a>
@@ -22,7 +22,7 @@ export default function ProductList({ products, category }) {
         :
 
         product.categories.map((categ) => (
-          categ.name == category ?
+          categ.name == mycategory ?
           <div key={product.permalink}>
             <Link href={`/products/${product.id}`}>
               <a>
