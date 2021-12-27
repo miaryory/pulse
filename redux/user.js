@@ -6,6 +6,7 @@ const initialState = {
   userId: '',
   userName: '',
   orders: [],
+  signupSuccessMsg: ''
 }
 
 export const signup = createAsyncThunk("user/signup",
@@ -48,8 +49,10 @@ export const signup = createAsyncThunk("user/signup",
                 });
     
                 if(!request.ok){
-                    return rejectWithValue();
+                    return rejectWithValue('Sign Up not successful');
                 }
+
+                return 'Sign Up successful! Log In to see your account.';
         
             }
             catch(err){
@@ -150,7 +153,7 @@ export const getOrders = createAsyncThunk("user/getOrders",
 
             try{
                 //get orders for this customer
-                const ordersRequest = await fetch('https://miaryory.com/pulse//wp-json/wc/v2/orders?customer='+userId,
+                const ordersRequest = await fetch('https://miaryory.com/pulse/wp-json/wc/v2/orders?customer='+userId,
                 {
                     method: 'GET',
                     headers: {
@@ -201,10 +204,11 @@ export const userSlice = createSlice({
   },
   extraReducers:{
       [signup.fulfilled]: (state, action) =>{
-          //state.user = action.payload.id;
+          state.signupSuccessMsg = action.payload;
       },
-      [signup.rejected]: (state) =>{
+      [signup.rejected]: (state, action) =>{
           state.isLoggedIn = false;
+          state.signupSuccessMsg = action.payload;
       },
       [login.fulfilled]: (state, action) => {
           state.userToken = action.payload.token;

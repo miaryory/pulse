@@ -1,6 +1,6 @@
 import MenuBar from "../components/MenuBar";
 import { useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signup } from '../redux/user';
 import TextInput from '../components/TextInput';
 import styles from '../styles/Signup.module.css';
@@ -14,11 +14,13 @@ export default function SignUp(){
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
+    const successMsg = useSelector(state => state.user.signupSuccessMsg);
     const dispatch = useDispatch();
     const { register, formState: { errors }, handleSubmit } = useForm();
 
     const handleFormSubmit = () => {
         event.preventDefault();
+        
         const user ={
             'firstName': firstName,
             'lastName': lastName,
@@ -27,6 +29,12 @@ export default function SignUp(){
         };
         //thunk action can only accepts 1 argument
         dispatch(signup(user));
+
+        //resetting form
+        setEmail('');
+        setFirstName('');
+        setLastName('');
+        setPassword('');
     }
 
     return(
@@ -35,6 +43,7 @@ export default function SignUp(){
 
             <form className={styles.signupForm} onSubmit={handleSubmit(handleFormSubmit)}>
                 <h1>CREATE AN ACCOUNT TO SEE YOUR ORDER HISTORY.</h1>
+                <p style={{'fontWeight': 'bold'}}>{successMsg}</p>
                 <TextInput register={register} required name="firstName" label="First Name" value={firstName} onChange={event => setFirstName(event.target.value)} />
                 {errors.firstName && <p className="inputErrorMsg">First Name is invalid.</p>}
 
