@@ -17,10 +17,12 @@
 
 .otherCategories{
     opacity: 0.5;
+    cursor: pointer;
 }
 
 .selectedCategory{
     opacity: 1;
+    cursor: pointer;
 }
 
 @media all and (min-width: 769px) {

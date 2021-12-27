@@ -57,7 +57,7 @@ export default function CartItem({id, item_key, featured_image, name, cart_item_
                 </div>
             </div>
 
-            <div>
+            <div className={styles.cartItemDelete}>
                 <FaTimes onClick={removeItem} size={20} color={"black"}/>
             </div>
         </div>

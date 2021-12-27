@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 export async function getStaticProps({ params }) {
     const { id } = params;
-    const { data: product } = await woocommerce.get(`products/${id}`);
+    const { data: product } = await woocommerce.get('products/'+id);
 
     return {
       props: {
@@ -29,7 +29,7 @@ export async function getStaticProps({ params }) {
           id: product.id.toString(),
         },
       })),
-      fallback: false,
+      fallback: true,
     };
   }
 

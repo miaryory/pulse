@@ -12,11 +12,16 @@
     height: fit-content;
     width: fit-content;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .cartItemInfo{
     display: flex;
     flex-direction: column;
+}
+
+.cartItemDelete{
+    cursor: pointer;
 }
 
 .cartItemInfo >*{

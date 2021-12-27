@@ -59,7 +59,7 @@ export default function CartPage () {
 
                         <div className={styles.cartTotal}>
                             <p>TOTAL</p>
-                            <p>{subtotal}</p>
+                            <p>{subtotal} Ar</p>
                         </div>
 
                         <button className="primaryBtn" onClick={goToCheckout} >CHECKOUT</button>

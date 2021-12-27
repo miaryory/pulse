@@ -16,10 +16,12 @@
 
 .menuIcon{
     margin: 0.5rem;
+    cursor: pointer;
 }
 
 .menuBrand{
     font-size: 25px;
+    cursor: pointer;
 }
 
 .menuSection{

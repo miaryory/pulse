@@ -9,7 +9,7 @@ import woocommerce from "../lib/woocommerce";
 //.env used here
 export async function getStaticProps() {
 
-  const { data: products } = await woocommerce.get('products?per_page=9');
+  const { data: products } = await woocommerce.get('products?per_page=50&page=1');
   const { data: categories } = await woocommerce.get('products/categories');
   
   return {
