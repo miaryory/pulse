@@ -35,9 +35,12 @@ export default function Login(){
                 <TextInput register={register} required name="password" label="Password" value={password} onChange={event => setPassword(event.target.value)}/>
                 {errors.password && <p className="inputErrorMsg">Password is required.</p>}
 
-                <p>No account yet?
-                    <Link href='/signup'> Signup here</Link>
-                </p>
+                <div style={{'display': 'inline-flex', 'gap': '5px'}}>
+                    <p>No account yet? </p>
+                    <Link href='/signup' passHref>
+                        <p style={{'cursor': 'pointer', 'textDecoration': 'underline'}}> Signup here</p>
+                    </Link>
+                </div>
                 <input className="primaryBtn" type="submit" value="LOG IN" />
             </form>
             <Footer/>
