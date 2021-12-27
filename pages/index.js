@@ -18,7 +18,6 @@ export async function getServerSideProps({ query: {page= 1} }){
   requestTotal.data.map((t)=>{
     total += t.total
   });
-  //console.log(total);
 
   return {
     props: {
