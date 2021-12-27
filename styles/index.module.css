@@ -25,6 +25,18 @@
     cursor: pointer;
 }
 
+.paginationContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.paginationContainer button{
+    background: transparent;
+    border: none;
+    margin: 1rem 0;
+}
+
 @media all and (min-width: 769px) {
     .homePage{
         display: grid;

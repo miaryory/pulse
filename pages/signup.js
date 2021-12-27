@@ -6,6 +6,7 @@ import TextInput from '../components/TextInput';
 import styles from '../styles/Signup.module.css';
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import Footer from "../components/Footer";
 
 
 export default function SignUp(){
@@ -46,11 +47,17 @@ export default function SignUp(){
                 <TextInput register={register} required name="password" label="Password" value={password} onChange={event => setPassword(event.target.value)} />
                 {errors.password && <p className="inputErrorMsg">Password is invalid.</p>}
 
-                <p>Already have an account?
-                    <Link href='/profile'> Login here</Link>
-                </p>
+                <div style={{'display': 'inline-flex', 'gap': '5px'}}>
+                    <p>Already have an account? </p>
+                    <Link href='/profile' passHref>
+                        <p style={{'cursor': 'pointer', 'textDecoration': 'underline'}}> Login here</p>
+                    </Link>
+                </div>
+                
                 <input className="primaryBtn" type="submit" value="SIGN UP" />
             </form>
+
+            <Footer/>
         </>
     );
 }
