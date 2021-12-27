@@ -13,6 +13,10 @@ export async function getStaticProps({ params }) {
     const { id } = params;
     const { data: product } = await woocommerce.get('products/'+id);
 
+    if(!product){
+      return;
+    }
+
     return {
       props: {
         product,
