@@ -96,10 +96,10 @@ export default function IndexPage({ categories, products, total, page, category 
           <ProductList products={products} mycategory={mycategory} />
 
           <div className={styles.paginationContainer}>
-            <button key={page} onClick={() => router.push(`/?page=${parseInt(page) - 1}`)} disabled={page <= 1}>
+            <button key={page} onClick={() => router.push(`/?page=${parseInt(page) - 1}`)} disabled={page <= 1} aria-label="Previous Page">
               <FaChevronLeft size={25} color={page <= 1 ? 'grey' : 'black'}/>
             </button>
-            <button onClick={() => router.push(`/?page=${parseInt(page) + 1}`)} disabled={page >= lastPage}>
+            <button onClick={() => router.push(`/?page=${parseInt(page) + 1}`)} disabled={page >= lastPage} aria-label="Next Page">
               <FaChevronRight size={25} color={page >= lastPage ? 'grey' : 'black'}/>
             </button>
           </div>
