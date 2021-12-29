@@ -9,7 +9,12 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 //server side rendering
 //.env used here
-export async function getServerSideProps({ query: {page = 1, category = ''} }){
+export async function getServerSideProps({ res, query: {page = 1, category = ''} }){
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+
   const { data: products } = await woocommerce.get('products?per_page=12&page='+page+'&category='+category);
   const { data: categories } = await woocommerce.get('products/categories');
   const requestTotal = await woocommerce.get('reports/products/totals');
