@@ -4,10 +4,11 @@
 }
 
 .productImage{
+    position: relative;
     border: 1px solid var(--light-grey);
     border-radius: 5px;
-    height: fit-content;
-    width: fit-content;
+    height: 80vw;
+    width: 80vw;
     display: block;
     margin: auto;
     overflow: hidden;
@@ -72,11 +73,21 @@
     .productInfo{
         display: block;
     }
+
+    .productImage{
+        height: 40vw;
+        width: 40vw;
+    }
 }
 
 @media all and (min-width: 1025px) {
     .productPage{
         max-width: 70%;
+    }
+
+    .productImage{
+        height: 30vw;
+        width: 30vw;
     }
     
 }
