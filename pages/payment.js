@@ -1,5 +1,4 @@
 import woocommerce from "../lib/woocommerce";
-import MenuBar from "../components/MenuBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import { CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
@@ -131,8 +130,10 @@ export default function Payment({paymentMethods}){
     
     return(
         <>
-            <MenuBar/>
             <div className={styles.paymentPage}>
+                <button className={styles.backBtn} onClick={() => router.push('/')}>
+                    Cancel
+                </button>
                 <form onSubmit={handleSubmit}>
                     <h1>{finalTotal} AR</h1>
                     <h2>SELECT YOUR PAYMENT METHOD</h2>

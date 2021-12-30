@@ -1,6 +1,7 @@
 .shippingPage{
     max-width: 90%;
     margin: auto;
+    padding-top: 5rem;
     padding-bottom: 3rem;
 }
 
@@ -44,6 +45,15 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.backBtn{
+    display: block;
+    margin: auto;
+    background: transparent;
+    color: #757575;
+    border: none;
+    text-decoration: underline;
 }
 
 @media all and (min-width: 769px) {

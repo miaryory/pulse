@@ -2,6 +2,7 @@
     max-width: 400px;
     width: 90%;
     margin: auto;
+    padding-top: 5rem;
 }
 
 .paymentPage h1{
@@ -23,4 +24,13 @@
     border: 1px solid var(--light-grey);
     border-radius: 5px;
     padding: 2rem 1rem;
+}
+
+.backBtn{
+    display: block;
+    margin: auto;
+    background: transparent;
+    color: #757575;
+    border: none;
+    text-decoration: underline;
 }

@@ -1,4 +1,3 @@
-import MenuBar from "../components/MenuBar";
 import { useState } from 'react';
 import woocommerce from "../lib/woocommerce";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +5,6 @@ import { useRouter } from "next/router";
 import { setBilling } from "../redux/order";
 import TextInput from "../components/TextInput";
 import styles from '../styles/Shipping.module.css';
-import getStripe from "../lib/stripe";
 import { useForm } from "react-hook-form";
 
 export async function getStaticProps() {
@@ -73,44 +71,8 @@ export default function Shipping({shippingMethods}){
         }];
 
         dispatch(setBilling({billingInfo: billingInfo, shippingInfo: shippingInfo, shippingLine: shippingLine}));
-        //redirectToCheckout();
         router.push('/payment');
-    }
-    const redirectToCheckout = async () => {
-        //create array of objects for line_items in stripe
-        const lineItems = [];
-            
-        cartItems.map((item) => {
-            const i = {
-                name: item.name,
-                amount: item.price,
-                currency: 'mga',
-                quantity: item.quantity.value,
-            }
-            lineItems.push(i);
-        });
-
-        lineItems.push({
-            name: 'Shipping' +shipping,
-            amount: shippingPrice,
-            currency: 'mga',
-            quantity: 1,
-        })
-
-        const request = await fetch('/api/checkout_sessions', {
-            method: 'POST',
-            headers:{
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(lineItems),
-        });
-
-        if(request.ok){
-            const response = await request.json();
-            const stripe = await getStripe();
-            await stripe.redirectToCheckout({ sessionId: response.id });
-        }
-    }      
+    }   
       
     const handleShippingMethod = (name, id, price) =>{
         setShipping(name);
@@ -122,9 +84,8 @@ export default function Shipping({shippingMethods}){
 
     return(
         <>
-            <MenuBar/>
             {isEmpty ?
-            null
+            <p>Your cart is empty</p>
             : 
             <>
             <div className={styles.shippingPage}>
@@ -133,6 +94,9 @@ export default function Shipping({shippingMethods}){
 
                     <div className={styles.shippingSection1}>
                         <div className={styles.addressGroup}>
+                            <button className={styles.backBtn} onClick={() => router.back()}>
+                                Back to Cart
+                            </button>
                             <h1>SHIPPING ADDRESS</h1>
                             <div className={styles.nameInputGroup}>
                                 <div>
