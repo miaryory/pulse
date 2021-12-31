@@ -90,7 +90,7 @@ export async function getStaticProps({ params }) {
           {product ? 
           <div className={styles.productPageContainer}>
             <div className={styles.productImage} >
-                    <Image src={product.images[0].src} alt='Product' layout="fill" objectFit="cover" priority/>
+                    <Image src={product.images[0].src} alt='Product' layout="fill" sizes="50vw" objectFit="cover" priority/>
             </div>
 
             <div className={styles.productInfoContainer}>
