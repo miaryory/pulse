@@ -1,6 +1,7 @@
 .productPage{
     max-width: 90%;
     margin: auto;
+    min-height: 50vh;
 }
 
 .productImage{

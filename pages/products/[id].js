@@ -105,19 +105,24 @@ export async function getStaticProps({ params }) {
               <div>
                 {product.attributes.map((attribute) => 
                   attribute.name === 'Size'?
-                  <>
-                    <div className={styles.productAttributes}>
-                    {attribute.options.map((option)=> 
-                    <button className={ selected === attribute.options.indexOf(option) ? styles.selectedSize : styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(attribute.options.indexOf(option), option)}>
-                      <p>{option}</p>
-                    </button>
-                    )}
-                    </div>
-                    <button className="primaryBtn" onClick={addToCart} disabled={size === '' ? true : false}>ADD TO CART</button>
-                  </>
+                    <>
+                      <div className={styles.productAttributes}>
+                      {attribute.options.map((option)=> 
+                        <button className={ selected === attribute.options.indexOf(option) ? styles.selectedSize : styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(attribute.options.indexOf(option), option)}>
+                          <p>{option}</p>
+                        </button>
+                      )}
+                      </div>
+                      <button className="primaryBtn" onClick={addToCart} disabled={size === '' ? true : false}>ADD TO CART</button>
+                    </>
                   :
-                  <button className="primaryBtn" onClick={addToCart} >ADD TO CART</button>
-                )}
+                    <button className="primaryBtn" onClick={addToCart} >ADD TO CART</button>
+                  )}
+
+                  {product.attributes.length == 0 ? 
+                    <button className="primaryBtn" onClick={addToCart} >ADD TO CART</button> 
+                  : 
+                  null}
               </div>
 
             </div>
