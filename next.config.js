@@ -8,4 +8,7 @@ module.exports = {
     minimumCacheTTL: 60,
   },
   reactStrictMode: true,
+  experimental: {
+    scrollRestoration: true,
+  },
 }

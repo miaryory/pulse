@@ -103,9 +103,12 @@ export async function getStaticProps({ params }) {
               <div className={styles.productDescription} dangerouslySetInnerHTML={{__html: product.description}}></div>
               
               <div>
-                {product.attributes.map((attribute) => 
-                  attribute.name === 'Size'?
-                    <>
+              {product.attributes.length === 0 ? 
+                  <button className="primaryBtn" onClick={addToCart} >ADD TO CART</button> 
+                  : 
+                  product.attributes.map((attribute)=>
+                    attribute.name === 'Size' ?
+                    <div key={attribute.id}>
                       <div className={styles.productAttributes}>
                       {attribute.options.map((option)=> 
                         <button className={ selected === attribute.options.indexOf(option) ? styles.selectedSize : styles.sizeOption} key={attribute.options.indexOf(option)} onClick={() => selectSize(attribute.options.indexOf(option), option)}>
@@ -114,15 +117,11 @@ export async function getStaticProps({ params }) {
                       )}
                       </div>
                       <button className="primaryBtn" onClick={addToCart} disabled={size === '' ? true : false}>ADD TO CART</button>
-                    </>
-                  :
-                    <button className="primaryBtn" onClick={addToCart} >ADD TO CART</button>
-                  )}
-
-                  {product.attributes.length == 0 ? 
-                    <button className="primaryBtn" onClick={addToCart} >ADD TO CART</button> 
-                  : 
-                  null}
+                    </div>
+                    :
+                    <button className="primaryBtn" onClick={addToCart}>ADD TO CART</button>
+                  )
+              }
               </div>
 
             </div>

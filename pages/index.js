@@ -49,7 +49,6 @@ export default function IndexPage({ categories, products, total, page, category 
   }
 
   const lastPage = Math.ceil(nbOfPages / 12);
-  //console.log(categories);
 
   const handleCategory = (name, id) => {
     setCategory(name);
@@ -67,8 +66,7 @@ export default function IndexPage({ categories, products, total, page, category 
 
       <div className={styles.homePage}>
 
-        {/* Category dropdown 
-        //onChange={event => setCategory(event.target.value)}*/}
+        {/* Category dropdown*/}
         <div>
           <select className={styles.categoryDropdownMobile} onChange={event => handleCategoryMobile(event.target.value)}>
               <option value="">ALL</option>
@@ -86,7 +84,6 @@ export default function IndexPage({ categories, products, total, page, category 
                 categ.name == 'Uncategorized' ?
                 null
                 :
-                //onClick={() => handleCategory(categ.name)}
                 <p className={selected === categ.name ? styles.selectedCategory : styles.otherCategories} onClick={() => handleCategory(categ.name, categ.id)} key={categ.id}>{categ.name.toUpperCase()}</p>
               ))}
           </div>
