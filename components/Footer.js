@@ -22,10 +22,10 @@ export default function Footer(){
                 <div>
                     <p className={styles.footerHeadear}>FOLLOW US</p>
                     <p>
-                        <FaFacebook size={25} color={"grey"}/>
+                        <FaFacebook size={22} color={"grey"}/>
                     </p>
                     <p>
-                        <FaInstagram size={25} color={"grey"}/>
+                        <FaInstagram size={22} color={"grey"}/>
                     </p>
                 </div>
             </div>

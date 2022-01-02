@@ -13,9 +13,6 @@ export default function MenuBar(){
             <div className={styles.menuBarContainer}>
                 <div className={styles.menuSection}>
                     <div>
-                        <FaAlignJustify className={`${styles.menuIcon} ${styles.burgerMenu}`} size={30} color={"black"}/>
-                    </div>
-                    <div>
                         <h1 onClick={() => router.push('/?page=1&category=', '/')} className={styles.menuBrand}>PULSE</h1>
                     </div>
                 </div>

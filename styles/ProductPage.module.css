@@ -5,11 +5,11 @@
 }
 
 .productImage{
-    position: relative;
+    /* position: relative; */
     border: 1px solid var(--light-grey);
     border-radius: 5px;
-    height: 80vw;
-    width: 80vw;
+    height: fit-content;
+    width: fit-content;
     display: block;
     margin: auto;
     overflow: hidden;

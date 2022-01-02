@@ -45,6 +45,7 @@
 
 .quantityBtn button{
     -webkit-appearance: none;
+    background: var(--light-grey);
     border: none;
     width: 2rem;
     height: 2rem;
