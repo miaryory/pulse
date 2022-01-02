@@ -9,7 +9,7 @@ export default function Footer(){
                     <p className={styles.footerHeadear}>PULSE</p>
                     <p>MIARY ORY</p>
                     <p>WEB DEVELOPMENT</p>
-                    <p>KEA</p>
+                    <p>KEA - 2022</p>
                 </div>
 
                 <div>

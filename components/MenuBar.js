@@ -18,9 +18,6 @@ export default function MenuBar(){
                 </div>
 
                 <div className={styles.menuSection}>
-                    <div>
-                        <FaSearch className={styles.menuIcon}  size={30} color={"black"}/>
-                    </div>
                     <div onClick={() => router.push('/profile')}>
                         <FaRegUserCircle className={styles.menuIcon}  size={30} color={"black"}/>
                     </div>

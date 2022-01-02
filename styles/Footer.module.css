@@ -2,14 +2,13 @@
     background: var(--black);
     color: white;
     margin-top: 5rem;
-    padding: 1rem 0;
+    padding: 2rem 0;
     width: 100%;
 }
 
 .footerContainer{
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     width: 90%;
     margin: auto;
 }
@@ -22,6 +21,13 @@
 p.footerHeadear{
     font-weight: bold;
     opacity: 1;
+}
+
+@media all and (min-width: 468px){
+    .footerContainer{
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 @media all and (min-width: 1025px){
