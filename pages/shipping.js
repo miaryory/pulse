@@ -164,7 +164,7 @@ export default function Shipping({shippingMethods}){
                             <div className={styles.cartCard}>
                                 {cartItems.map((item) =>
                                     <div className={styles.cartCardItem} key={item.item_key}>
-                                        <p>{item.name.toUpperCase()+' ('+item.cart_item_data.size +') x'+item.quantity.value}</p>
+                                        <p className={styles.cartCardItemName}>{item.name.toUpperCase()+' ('+item.cart_item_data.size +') x'+item.quantity.value}</p>
                                         <p>{item.totals.total} Ar</p>
                                     </div>
                                 )}

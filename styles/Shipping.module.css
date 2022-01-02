@@ -47,6 +47,11 @@
     align-items: center;
 }
 
+.cartCardItemName{
+    font-size: 14px;
+    max-width: 50%;
+}
+
 .backBtn{
     display: block;
     margin: auto;
