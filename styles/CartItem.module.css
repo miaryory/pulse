@@ -44,6 +44,7 @@
 }
 
 .quantityBtn button{
+    -webkit-appearance: none;
     border: none;
     width: 2rem;
     height: 2rem;

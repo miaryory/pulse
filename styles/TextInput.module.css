@@ -10,6 +10,7 @@
 }
 
 .inputField{
+    -webkit-appearance: none;
     border: 1px solid var(--dark-grey);
     background: transparent;
     border-radius: 5px;
