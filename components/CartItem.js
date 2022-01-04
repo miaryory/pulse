@@ -42,7 +42,7 @@ export default function CartItem({id, item_key, featured_image, name, cart_item_
         <div className={styles.cartItem}>
             <Link href={`/products/${id}`} passHref>
                 <div className={styles.cartItemImage}>
-                    <Image src={featured_image} alt='Product' width={150} height={150} />
+                    <Image src={featured_image ? featured_image : 'http://miaryory.com/pulse/wp-content/uploads/woocommerce-placeholder.png'} alt='Product' width={150} height={150} />
                 </div>
             </Link>
 

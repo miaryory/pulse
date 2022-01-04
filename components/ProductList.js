@@ -14,7 +14,7 @@ export default function ProductList({ products, mycategory }) {
         <div key={product.permalink}>
           <Link href={`/products/${product.id}`}>
             <a>
-              <Product image={product.images[0].src} name={product.name} price={product.price_html} />
+              <Product image={product.images[0] ? product.images[0].src : 'http://miaryory.com/pulse/wp-content/uploads/woocommerce-placeholder.png'} name={product.name} price={product.price_html} />
             </a>
           </Link>
         </div>
