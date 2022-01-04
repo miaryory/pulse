@@ -159,6 +159,7 @@ export default function Payment({paymentMethods}){
 
                     {displayStripe ? 
                     <div>
+                        <p style={{opacity:'0.4'}}>Test card:  4000 0025 0000 0003</p>
                         <div className={styles.cardContainer}>
                             <CardElement id="card-element" onChange={handleChange} />
                         </div>

@@ -6,7 +6,8 @@ const initialState = {
   userId: '',
   userName: '',
   orders: [],
-  signupSuccessMsg: ''
+  signupSuccessMsg: '',
+  loginSuccessMsg: '',
 }
 
 export const signup = createAsyncThunk("user/signup",
@@ -82,7 +83,7 @@ export const login = createAsyncThunk("user/login",
             });
     
             if(!request.ok){
-                return rejectWithValue();
+                return rejectWithValue('Wrong credentials');
             }
 
             //return the token - data.token
@@ -217,12 +218,14 @@ export const userSlice = createSlice({
           state.orders = action.payload.orders;
           window.localStorage.setItem('user_token', action.payload.token);
           window.localStorage.setItem('user_id', action.payload.user.id);
+          state.loginSuccessMsg = '';
       },
-      [login.rejected]: (state) =>{
+      [login.rejected]: (state, action) =>{
           state.userToken = '';
           state.isLoggedIn = false;
           state.userId = '';
           state.orders = [];
+          state.loginSuccessMsg = action.payload;
       },
       [getOrders.fulfilled]: (state, action) => {
           state.orders = action.payload;
