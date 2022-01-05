@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from '../styles/MenuBar.module.css';
-import { FaAlignJustify, FaSearch, FaRegUserCircle, FaShoppingBasket } from "react-icons/fa";
+import { FaRegUserCircle, FaShoppingBasket } from "react-icons/fa";
 import { useSelector} from 'react-redux';
 import { useRouter } from 'next/router';
 
 export default function MenuBar(){
     const item_count = useSelector((state) => state.cart.item_count);
+    const userId = useSelector(state => state.order.customer_id);
     const router = useRouter();
-
     return(
         <div className={styles.menuBar}>
             <div className={styles.menuBarContainer}>
@@ -18,7 +18,7 @@ export default function MenuBar(){
                 </div>
 
                 <div className={styles.menuSection}>
-                    <div onClick={() => router.push('/profile')}>
+                    <div onClick={() => router.push('/profile?user='+userId, '/profile')}>
                         <FaRegUserCircle className={styles.menuIcon}  size={30} color={"black"}/>
                     </div>
                     <div className={styles.cartIcon} onClick={() => router.push('/cart')}>
