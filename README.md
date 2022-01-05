@@ -11,7 +11,7 @@ Deployment Platform: [Vercel](https://vercel.com/)
 [PULSE](https://pulse-two.vercel.app/)
 
 ## Test Login Credentials
-Username: a@a.com   
+Username: b@b.com   
 Password: pass1234   
 
 ## Test Card
