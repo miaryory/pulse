@@ -10,7 +10,7 @@ export default async function handler(req, res) {
                 amount: req.body,
                 currency: "mga",
             });
-          
+        
             //return the response as JSON to the app
             res.status(200).json(paymentIntent);
         }
