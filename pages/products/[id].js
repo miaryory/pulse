@@ -7,6 +7,8 @@ import { setCart } from "../../redux/cart";
 import { useSelector, useDispatch } from 'react-redux';
 import woocommerce from '../../lib/woocommerce';
 import { useState } from 'react';
+import Product from '../../components/Product';
+import Link from 'next/link';
 
 
 export async function getStaticProps({ params }) {
@@ -19,9 +21,18 @@ export async function getStaticProps({ params }) {
       }
     }
 
+    const relatedIds = product.related_ids;
+    let idQuery = '';
+    relatedIds.map((id)=>
+      idQuery += id+','
+    );
+
+    const { data: relatedProducts } = await woocommerce.get('products?include='+idQuery);
+
     return {
       props: {
         product,
+        relatedProducts,
       },
       revalidate: 10,
     };
@@ -40,7 +51,7 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  export default function ProductPage({ product }) {
+  export default function ProductPage({ product, relatedProducts }) {
     const [size, setSize] = useState('');
     const [selected, setSelected] = useState('');
     const dispatch = useDispatch();
@@ -89,6 +100,7 @@ export async function getStaticProps({ params }) {
         <div className={styles.productPage}>
 
           {product ? 
+          <>
           <div className={styles.productPageContainer}>
             <div className={styles.productImage} >
                     <Image src={product.images[0] ? product.images[0].src : 'http://miaryory.com/pulse/wp-content/uploads/woocommerce-placeholder.png'} alt='Product' width={500} height={500}/>
@@ -126,7 +138,28 @@ export async function getStaticProps({ params }) {
 
             </div>
 
+
           </div>
+          <div className={styles.relatedProductsContainer}>
+            <h1 style={{fontSize: '14px'}}>RELATED PRODUCTS</h1>
+
+            <div className={styles.relatedProducts} >
+              {relatedProducts.length > 0 ? 
+                relatedProducts.map((product)=>
+                  <div key={product.id}>
+                    <Link href={`/products/${product.id}`}>
+                      <a>
+                        <Product image={product.images[0] ? product.images[0].src : 'http://miaryory.com/pulse/wp-content/uploads/woocommerce-placeholder.png'} name={product.name} price={product.price_html} />
+                      </a>
+                    </Link>
+                  </div>
+                )
+              : 
+              null}
+            </div>
+
+          </div>
+          </>
           : 
             null}
 
