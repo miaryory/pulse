@@ -1,11 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+let user_orders;
+
+if (typeof window !== "undefined") {
+    if(window.localStorage.getItem('user_orders')){
+        user_orders = JSON.parse(window.localStorage.getItem('user_orders'));
+    }
+}
+
 const initialState = {
   userToken: '',
   isLoggedIn: false,
   userId: '',
   userName: '',
-  orders: [],
+  orders: user_orders ? user_orders : [],
   signupSuccessMsg: '',
   loginSuccessMsg: '',
 }
@@ -109,7 +117,7 @@ export const login = createAsyncThunk("user/login",
                 //once we have info about the user > get all orders for this customer with the ID
                 try{
                     const orders = dispatch(getOrders(wpUser.id));
-                    //console.log(wpUser);
+                    //console.log(orders);
                     const payload = {token: data.token, user: wpUser, orders: (await orders).payload};
                     return payload;
                 }
@@ -201,6 +209,7 @@ export const userSlice = createSlice({
           state.userId = '';
           window.localStorage.removeItem('user_token');
           window.localStorage.removeItem('user_id');
+          window.localStorage.removeItem('user_orders');
       }
   },
   extraReducers:{
@@ -218,6 +227,7 @@ export const userSlice = createSlice({
           state.orders = action.payload.orders;
           window.localStorage.setItem('user_token', action.payload.token);
           window.localStorage.setItem('user_id', action.payload.user.id);
+          window.localStorage.setItem('user_orders', JSON.stringify(action.payload.orders));
           state.loginSuccessMsg = '';
       },
       [login.rejected]: (state, action) =>{

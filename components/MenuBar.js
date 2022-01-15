@@ -7,8 +7,6 @@ import SearchItem from './SearchItem';
 
 export default function MenuBar(){
     const item_count = useSelector((state) => state.cart.item_count);
-    const userId = useSelector(state => state.order.customer_id);
-    const [searchInput, setSearchInput] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const router = useRouter();
 
@@ -54,7 +52,7 @@ export default function MenuBar(){
                             null}
                         </div>
                     </div>
-                    <div onClick={() => router.push('/profile?user='+userId, '/profile')}>
+                    <div onClick={() => router.push('/profile')}>
                         <FaRegUserCircle className={styles.menuIcon}  size={30} color={"black"}/>
                     </div>
                     <div className={styles.cartIcon} onClick={() => router.push('/cart')}>
