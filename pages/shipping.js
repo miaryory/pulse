@@ -14,6 +14,7 @@ export async function getStaticProps() {
         props: {
         shippingMethods,
         },
+        revalidate: 10,
     };
 }
 
@@ -131,6 +132,7 @@ export default function Shipping({shippingMethods}){
                         <div className={styles.shippingMethodGroup}>
                             <h1>SHIPPING METHOD</h1>
                             {shippingMethods.map((method) =>
+                                method.enabled ?
                                 <div className={styles.shippingMethodCard} key={method.id}>
                                     {method.method_id == 'free_shipping' ? 
                                     <>
@@ -152,6 +154,8 @@ export default function Shipping({shippingMethods}){
                                     </>
                                     }
                                 </div>
+                                :
+                                null
                             )}
                             {errors.shippingMethod && <p className="inputErrorMsg">Choose a shipping method.</p>}
                         </div>
