@@ -14,7 +14,6 @@ export async function getStaticProps() {
         props: {
         shippingMethods,
         },
-        revalidate: 10,
     };
 }
 
