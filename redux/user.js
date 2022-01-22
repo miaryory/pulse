@@ -6,8 +6,8 @@ if (typeof window !== "undefined") {
     if(window.localStorage.getItem('user_orders')){
         user_orders = JSON.parse(window.localStorage.getItem('user_orders'));
     }
-    if(window.localStorage.getItem('user_orders')){
-        user_name = JSON.parse(window.localStorage.getItem('user_name'));
+    if(window.localStorage.getItem('user_name')){
+        user_name = window.localStorage.getItem('user_name');
     }
 }
 
