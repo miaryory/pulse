@@ -1,11 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+let user_orders, user_name;
+
+if (typeof window !== "undefined") {
+    if(window.localStorage.getItem('user_orders')){
+        user_orders = JSON.parse(window.localStorage.getItem('user_orders'));
+    }
+    if(window.localStorage.getItem('user_name')){
+        user_name = window.localStorage.getItem('user_name');
+    }
+}
+
 const initialState = {
   userToken: '',
   isLoggedIn: false,
   userId: '',
-  userName: '',
-  orders: [],
+  userName: user_name ? user_name : '',
+  orders: user_orders ? user_orders : [],
   signupSuccessMsg: '',
   loginSuccessMsg: '',
 }
@@ -199,8 +210,12 @@ export const userSlice = createSlice({
           state.userToken = '';
           state.isLoggedIn = false;
           state.userId = '';
+          state.userName = '';
+          state.orders = [];
           window.localStorage.removeItem('user_token');
           window.localStorage.removeItem('user_id');
+          window.localStorage.removeItem('user_orders');
+          window.localStorage.removeItem('user_name');
       }
   },
   extraReducers:{
@@ -215,9 +230,12 @@ export const userSlice = createSlice({
           state.userToken = action.payload.token;
           state.isLoggedIn = true;
           state.userId = action.payload.user.id;
+          state.userName = action.payload.user.name;
           state.orders = action.payload.orders;
           window.localStorage.setItem('user_token', action.payload.token);
           window.localStorage.setItem('user_id', action.payload.user.id);
+          window.localStorage.setItem('user_name', action.payload.user.name);
+          window.localStorage.setItem('user_orders', JSON.stringify(action.payload.orders));
           state.loginSuccessMsg = '';
       },
       [login.rejected]: (state, action) =>{

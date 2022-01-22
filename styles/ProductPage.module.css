@@ -58,6 +58,19 @@
     color: white;
 }
 
+.relatedProductsContainer{
+    margin-top: 5rem;
+    padding-left: 1rem;
+}
+
+@media all and (min-width: 481px){
+    .relatedProducts{
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+}
+
 @media all and (min-width: 711px){
     .productPageContainer{
         display: grid;
